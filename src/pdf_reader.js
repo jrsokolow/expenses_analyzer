@@ -21,28 +21,33 @@ const printCost = (key, total) => {
 }
 
 const allegroCost = countCost(data, 'Allegro');
-const dinoCost = countCost(data, 'DINO');
-const nettoCost = countCost(data, 'NETTO');
-const biedronkaCost = countCost(data, 'BIEDRONKA');
+const marketCost = countAgregatedCost(data, ['DINO', 'NETTO', 'BIEDRONKA'])
 const pepcoCost = countCost(data, 'PEPCO');
 const petrolCost = countAgregatedCost(data, ['STACJA PALIW', 'LOTOS', 'ORLEN']);
 const medicineCost = countCost(data, 'APTEKA');
 const diabeticCost = countCost(data, 'diabetyk24');
-const mrowkaCost = countCost(data, 'MROWKA');   
-const zabkaCost = countCost(data, 'ZABKA');
-const gamesCost = countAgregatedCost(data, ['LONDON', 'GOGcomECOM']);
-const media = countAgregatedCost(data, ['Disney', 'YouTubePremium']);
+const mrowkaBricoCost = countAgregatedCost(data, ['MROWKA', 'GRANAT']);   
+const smallShopsCost = countAgregatedCost(data, ['ZABKA', 'Zygula', 'Piekarnia']);
+const gamesCost = countAgregatedCost(data, ['LONDON', 'GOGcomECOM', 'Google Play', 'Steam']);
+const mediaCost = countAgregatedCost(data, ['Disney', 'YouTubePremium']);
 const orangeFlex = countCost(data, 'FLEX');
+const clothsCost = countCost(data, 'smyk');
+const myjniaCost = countCost(data, 'MYJNIA');
+const farmaCost = countAgregatedCost(data, ['ZIELONY ZAKATEK', 'OGRODNICZO']);
+const butyCost = countCost(data, 'CCC');
 
 printCost('Allegro', allegroCost);
-printCost('Dino', dinoCost);
-printCost('Netto', nettoCost);
+printCost('Markets', marketCost);
 printCost('Pepco', pepcoCost);
-printCost('Biedronka', biedronkaCost);
 printCost('Petrol', petrolCost);
 printCost('Medicines', medicineCost);
 printCost('diabetyk24', diabeticCost);
-printCost('Mrowka', mrowkaCost);
-printCost('Zabka', zabkaCost);
-printCost('PlayStation', gamesCost);
+printCost('Mrowka/Brico', mrowkaBricoCost);
+printCost('SmallShopsCost', smallShopsCost);
+printCost('Games', gamesCost);
 printCost('Orange', orangeFlex);
+printCost('Cloths', clothsCost);
+printCost('Myjnia', myjniaCost);
+printCost('Farma', farmaCost);
+printCost('Buty', butyCost);
+printCost('Media', mediaCost);
