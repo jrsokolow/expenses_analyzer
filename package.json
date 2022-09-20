@@ -1,5 +1,8 @@
 {
   "type": "module",
+  "scripts": {
+    "calculate": "node src/pdf_reader.js"
+  },
   "devDependencies": {
     "typescript": "^4.7.3"
   },
