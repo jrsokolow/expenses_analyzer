@@ -21,33 +21,41 @@ const printCost = (key, total) => {
 }
 
 const allegroCost = countCost(data, 'Allegro');
-const marketCost = countAgregatedCost(data, ['DINO', 'NETTO', 'BIEDRONKA'])
+const marketCost = countAgregatedCost(data, ['DINO', 'NETTO', 'BIEDRONKA','CARREFOUR'])
 const pepcoCost = countCost(data, 'PEPCO');
-const petrolCost = countAgregatedCost(data, ['STACJA PALIW', 'LOTOS', 'ORLEN']);
+const petrolCost = countAgregatedCost(data, ['STACJA PALIW', 'LOTOS', 'ORLEN', 'CIRCLE']);
 const medicineCost = countCost(data, 'APTEKA');
-const diabeticCost = countCost(data, 'diabetyk24');
+const stomatologiaCost = countCost(data, 'STOMATOLOGIA');
+const diabeticCost = countAgregatedCost(data, ['diabetyk24', 'FRANCISCO']);
 const mrowkaBricoCost = countAgregatedCost(data, ['MROWKA', 'GRANAT']);   
-const smallShopsCost = countAgregatedCost(data, ['ZABKA', 'Zygula', 'Piekarnia']);
-const gamesCost = countAgregatedCost(data, ['LONDON', 'GOGcomECOM', 'Google Play', 'Steam']);
+const smallShopsCost = countAgregatedCost(data, ['ZABKA', 'Zygula', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE O CLOCK']);
+const gamesCost = countAgregatedCost(data, ['LONDON', 'GOGcomECOM', 'Google Play', 'Steam', 'STEAM', 'PlayStation']);
 const mediaCost = countAgregatedCost(data, ['Disney', 'YouTubePremium']);
 const orangeFlex = countCost(data, 'FLEX');
-const clothsCost = countCost(data, 'smyk');
+const clothsCost = countAgregatedCost(data, ['smyk','SECRET', 'SINSAY', 'kappahl']);
 const myjniaCost = countCost(data, 'MYJNIA');
 const farmaCost = countAgregatedCost(data, ['ZIELONY ZAKATEK', 'OGRODNICZO']);
 const butyCost = countCost(data, 'CCC');
+const kosmetyki = countCost(data, 'ROSSMANN');
+const empik = countCost(data, 'EMPIK');
+const restaurant = countAgregatedCost(data, ['SLOW FOOD', 'VERDE']);
 
 printCost('Allegro', allegroCost);
 printCost('Markets', marketCost);
 printCost('Pepco', pepcoCost);
 printCost('Petrol', petrolCost);
 printCost('Medicines', medicineCost);
-printCost('diabetyk24', diabeticCost);
+printCost('Stomatologia', stomatologiaCost);
+printCost('cukrzyca', diabeticCost);
 printCost('Mrowka/Brico', mrowkaBricoCost);
 printCost('SmallShopsCost', smallShopsCost);
 printCost('Games', gamesCost);
 printCost('Orange', orangeFlex);
 printCost('Cloths', clothsCost);
+printCost('Kosmetyki', kosmetyki);
 printCost('Myjnia', myjniaCost);
 printCost('Farma', farmaCost);
 printCost('Buty', butyCost);
 printCost('Media', mediaCost);
+printCost('Empik', empik);
+printCost('Restauracja', restaurant);
