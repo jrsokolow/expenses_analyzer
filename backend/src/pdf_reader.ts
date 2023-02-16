@@ -1,4 +1,4 @@
-import { read, IWorkBook, utils, readFile } from 'ts-xlsx';
+import { IWorkBook, utils, readFile } from 'ts-xlsx';
 
 const file:IWorkBook = readFile('data/source.xlsx');
 
