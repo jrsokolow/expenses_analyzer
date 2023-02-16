@@ -12,7 +12,7 @@ interface ExcelRow {
 const countCost = (data:ExcelRow[], key:string):number => {
     return data.filter(item => {
         return item.Opis.includes(key);
-    }).reduce((total:number, item:ExcelRow) => total + item.Kwota as number, 0);
+    }).reduce((total:number, item:ExcelRow) => total + item.Kwota, 0);
 }
 
 const countAgregatedCost = (data:ExcelRow[], keys:string[]):number => {
