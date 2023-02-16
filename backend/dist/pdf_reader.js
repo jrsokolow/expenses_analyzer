@@ -1,45 +1,41 @@
-import xlsx from 'xlsx';
-
-const file = xlsx.readFile('data/source.xlsx');
-
-const data = xlsx.utils.sheet_to_json(file.Sheets['ExcelExportFile']);
-
+import { utils, readFile } from 'ts-xlsx';
+const file = readFile('data/source.xlsx');
+const data = utils.sheet_to_json(file.Sheets['ExcelExportFile']);
+;
 const countCost = (data, key) => {
-    return data.filter(item => item.Opis.includes(key)).reduce((total, item) => total + item.Kwota, 0);
-}
-
+    return data.filter(item => {
+        return item.Opis.includes(key);
+    }).reduce((total, item) => total + item.Kwota, 0);
+};
 const countAgregatedCost = (data, keys) => {
     let agregatedCost = 0;
     keys.forEach(element => {
         agregatedCost += countCost(data, element);
     });
     return agregatedCost;
-}
-
+};
 const printCost = (key, total) => {
     console.log(key + ' -> ' + total);
-}
-
+};
 const allegroCost = countCost(data, 'Allegro');
-const marketCost = countAgregatedCost(data, ['DINO', 'NETTO', 'BIEDRONKA','CARREFOUR'])
+const marketCost = countAgregatedCost(data, ['DINO', 'NETTO', 'BIEDRONKA', 'CARREFOUR']);
 const pepcoCost = countCost(data, 'PEPCO');
 const petrolCost = countAgregatedCost(data, ['STACJA PALIW', 'LOTOS', 'ORLEN', 'CIRCLE']);
 const medicineCost = countCost(data, 'APTEKA');
 const stomatologiaCost = countCost(data, 'STOMATOLOGIA');
 const diabeticCost = countAgregatedCost(data, ['diabetyk24', 'FRANCISCO']);
-const mrowkaBricoCost = countAgregatedCost(data, ['MROWKA', 'GRANAT']);   
+const mrowkaBricoCost = countAgregatedCost(data, ['MROWKA', 'GRANAT']);
 const smallShopsCost = countAgregatedCost(data, ['ZABKA', 'Zygula', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE O CLOCK']);
 const gamesCost = countAgregatedCost(data, ['LONDON', 'GOGcomECOM', 'Google Play', 'Steam', 'STEAM', 'PlayStation']);
 const mediaCost = countAgregatedCost(data, ['Disney', 'YouTubePremium']);
 const orangeFlex = countCost(data, 'FLEX');
-const clothsCost = countAgregatedCost(data, ['smyk','SECRET', 'SINSAY', 'kappahl']);
+const clothsCost = countAgregatedCost(data, ['smyk', 'SECRET', 'SINSAY', 'kappahl']);
 const myjniaCost = countCost(data, 'MYJNIA');
 const farmaCost = countAgregatedCost(data, ['ZIELONY ZAKATEK', 'OGRODNICZO']);
 const butyCost = countCost(data, 'CCC');
 const kosmetyki = countCost(data, 'ROSSMANN');
 const empik = countCost(data, 'EMPIK');
 const restaurant = countAgregatedCost(data, ['SLOW FOOD', 'VERDE']);
-
 printCost('Allegro', allegroCost);
 printCost('Markets', marketCost);
 printCost('Pepco', pepcoCost);
