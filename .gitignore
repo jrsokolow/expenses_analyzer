@@ -1,0 +1,4 @@
+/backend/dist
+/backend/data
+/backend/node_modules
+/.vscode
