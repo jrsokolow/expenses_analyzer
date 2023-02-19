@@ -5,7 +5,12 @@ const data = utils.sheet_to_json(file.Sheets['ExcelExportFile']);
 const countCost = (data, key) => {
     return data.filter(item => {
         return item.Opis.includes(key);
-    }).reduce((total, item) => total + item.Kwota, 0);
+    }).reduce((total, { Kwota }) => {
+        console.log(Kwota);
+        const cost = Math.abs(Number(Kwota.replace(/\s/g, '')));
+        console.log(cost);
+        return total + cost;
+    }, 0);
 };
 const countAgregatedCost = (data, keys) => {
     let agregatedCost = 0;

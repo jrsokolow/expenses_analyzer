@@ -6,13 +6,16 @@ const data:ExcelRow[] = utils.sheet_to_json(file.Sheets['ExcelExportFile']);
 
 interface ExcelRow {
     Opis: string,
-    Kwota: number
+    Kwota: string
 };
 
 const countCost = (data:ExcelRow[], key:string):number => {
     return data.filter(item => {
         return item.Opis.includes(key);
-    }).reduce((total:number, item:ExcelRow) => total + item.Kwota, 0);
+    }).reduce((total:number, {Kwota}) => {
+        const cost = Math.abs(Number(Kwota.replace(/\s/g,'')));
+        return total + cost;
+    }, 0);
 }
 
 const countAgregatedCost = (data:ExcelRow[], keys:string[]):number => {
