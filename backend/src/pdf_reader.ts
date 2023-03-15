@@ -35,6 +35,7 @@ const marketCost = countAgregatedCost(data, ['DINO', 'NETTO', 'BIEDRONKA','CARRE
 const pepcoCost = countCost(data, 'PEPCO');
 const petrolCost = countAgregatedCost(data, ['STACJA PALIW', 'LOTOS', 'ORLEN', 'CIRCLE']);
 const medicineCost = countCost(data, 'APTEKA');
+const doctorCost = countAgregatedCost(data, ['MEDICUS']);
 const stomatologiaCost = countCost(data, 'STOMATOLOGIA');
 const diabeticCost = countAgregatedCost(data, ['diabetyk24', 'FRANCISCO', 'Aero-Medika']);
 const mrowkaBricoCost = countAgregatedCost(data, ['MROWKA', 'GRANAT']);   
@@ -42,17 +43,17 @@ const smallShopsCost = countAgregatedCost(data, ['ZABKA', 'Zygula', 'Piekarnia',
 const gamesCost = countAgregatedCost(data, ['LONDON', 'GOGcomECOM', 'Google Play', 'Steam', 'STEAM', 'PlayStation']);
 const mediaCost = countAgregatedCost(data, ['Disney', 'YouTubePremium']);
 const orangeFlex = countCost(data, 'FLEX');
-const clothsCost = countAgregatedCost(data, ['smyk','SECRET', 'SINSAY', 'kappahl', 'MEDICINE']);
+const clothsCost = countAgregatedCost(data, ['smyk','SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE']);
 const myjniaCost = countAgregatedCost(data, ['MYJNIA','WIKON']);
 const farmaCost = countAgregatedCost(data, ['ZIELONY ZAKATEK', 'OGRODNICZO']);
 const butyCost = countCost(data, 'CCC');
 const kosmetyki = countCost(data, 'ROSSMANN');
 const empik = countCost(data, 'EMPIK');
-const restaurant = countAgregatedCost(data, ['SLOW FOOD', 'VERDE', 'EWA DA', 'STARA PIEKARNIA', 'Donald', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA']);
+const restaurant = countAgregatedCost(data, ['SLOW FOOD', 'VERDE', 'EWA DA', 'STARA PIEKARNIA', 'Donald', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy']);
 const miedzyzdroje = countCost(data, 'MIEDZYZDROJE');
 const kino = countCost(data, 'DOM KULTURY');
 const sport = countCost(data, 'MARTES');
-const fryzjer = countCost(data, 'FRYZJERSKI');
+const fryzjer = countAgregatedCost(data, ['FRYZJERSKI','FRYZJERSKA']);
 const pets = countCost(data, 'PATIVET');
 
 printCost('Allegro', allegroCost);
@@ -60,6 +61,7 @@ printCost('Markets', marketCost);
 printCost('Pepco', pepcoCost);
 printCost('Petrol', petrolCost);
 printCost('Medicines', medicineCost);
+printCost('Lekarze', doctorCost);
 printCost('Stomatologia', stomatologiaCost);
 printCost('cukrzyca', diabeticCost);
 printCost('Mrowka/Brico', mrowkaBricoCost);
