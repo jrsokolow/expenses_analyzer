@@ -9,6 +9,36 @@ interface ExcelRow {
     Kwota: string
 };
 
+const ALLEGRO = ['Allegro']
+const MARKETS = ['DINO', 'NETTO', 'BIEDRONKA','CARREFOUR'];
+const PEPCO = ['PEPCO'];
+const PETROL = ['STACJA PALIW', 'LOTOS', 'ORLEN', 'CIRCLE'];
+const MEDICINE = ['APTEKA'];
+const DOCTORS = ['MEDICUS'];
+const DENTISTRY = ['STOMATOLOGIA'];
+const DIABETIC = ['diabetyk24', 'FRANCISCO', 'Aero-Medika'];
+const TOOLS_SHOPS = ['MROWKA', 'GRANAT'];
+const SMALL_SHOPS = ['ZABKA', 'Zygula', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE O CLOCK', 'LEKS'];
+const GAMES = ['LONDON', 'GOGcomECOM', 'Google Play', 'Steam', 'STEAM', 'PlayStation'];
+const MEDIA = ['Disney', 'YouTubePremium'];
+const ORANGE = ['FLEX'];
+const CLOTHS = ['smyk','SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE'];
+const CAR_SHOWER = ['MYJNIA','WIKON'];
+const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO'];
+const SHOES = ['CCC'];
+const COSMETICS = ['ROSSMANN'];
+const EMPIK = ['EMPIK'];
+const RESTAURANT = ['SLOW FOOD', 'VERDE', 'EWA DA', 'STARA PIEKARNIA', 'Donald', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy'];
+const MIEDZYZDROJE = ['MIEDZYZDROJE'];
+const CINEMA = ['DOM KULTURY'];
+const SPORT = ['MARTES'];
+const HAIR_CUT = ['FRYZJERSKI','FRYZJERSKA'];
+const PETS = ['PATIVET'];
+
+const ALL = [ALLEGRO, MARKETS, PEPCO, PETROL, MEDICINE, DOCTORS, DENTISTRY, DIABETIC, TOOLS_SHOPS, 
+    SMALL_SHOPS, GAMES, MEDIA, ORANGE, CLOTHS, CAR_SHOWER, FARM, SHOES, COSMETICS, EMPIK, RESTAURANT,
+MIEDZYZDROJE, CINEMA, SPORT, HAIR_CUT, PETS].flat();
+
 const countCost = (data:ExcelRow[], key:string):number => {
     return data.filter(item => {
         return item.Opis.includes(key);
@@ -30,31 +60,42 @@ const printCost = (key:string, total:number) => {
     console.log(key + ' -> ' + total);
 }
 
-const allegroCost = countCost(data, 'Allegro');
-const marketCost = countAgregatedCost(data, ['DINO', 'NETTO', 'BIEDRONKA','CARREFOUR'])
-const pepcoCost = countCost(data, 'PEPCO');
-const petrolCost = countAgregatedCost(data, ['STACJA PALIW', 'LOTOS', 'ORLEN', 'CIRCLE']);
-const medicineCost = countCost(data, 'APTEKA');
-const doctorCost = countAgregatedCost(data, ['MEDICUS']);
-const stomatologiaCost = countCost(data, 'STOMATOLOGIA');
-const diabeticCost = countAgregatedCost(data, ['diabetyk24', 'FRANCISCO', 'Aero-Medika']);
-const mrowkaBricoCost = countAgregatedCost(data, ['MROWKA', 'GRANAT']);   
-const smallShopsCost = countAgregatedCost(data, ['ZABKA', 'Zygula', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE O CLOCK', 'LEKS']);
-const gamesCost = countAgregatedCost(data, ['LONDON', 'GOGcomECOM', 'Google Play', 'Steam', 'STEAM', 'PlayStation']);
-const mediaCost = countAgregatedCost(data, ['Disney', 'YouTubePremium']);
-const orangeFlex = countCost(data, 'FLEX');
-const clothsCost = countAgregatedCost(data, ['smyk','SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE']);
-const myjniaCost = countAgregatedCost(data, ['MYJNIA','WIKON']);
-const farmaCost = countAgregatedCost(data, ['ZIELONY ZAKATEK', 'OGRODNICZO']);
-const butyCost = countCost(data, 'CCC');
-const kosmetyki = countCost(data, 'ROSSMANN');
-const empik = countCost(data, 'EMPIK');
-const restaurant = countAgregatedCost(data, ['SLOW FOOD', 'VERDE', 'EWA DA', 'STARA PIEKARNIA', 'Donald', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy']);
-const miedzyzdroje = countCost(data, 'MIEDZYZDROJE');
-const kino = countCost(data, 'DOM KULTURY');
-const sport = countCost(data, 'MARTES');
-const fryzjer = countAgregatedCost(data, ['FRYZJERSKI','FRYZJERSKA']);
-const pets = countCost(data, 'PATIVET');
+const findNotCategorizedCosts = () => {
+    data.forEach(cost => {
+        const isUnknownCategory = !ALL.some(substring=>cost.Opis.includes(substring));
+        if(isUnknownCategory) {
+            console.log(cost);
+        }
+    });
+}
+
+findNotCategorizedCosts();
+
+const allegroCost = countAgregatedCost(data, ALLEGRO);
+const marketCost = countAgregatedCost(data, MARKETS)
+const pepcoCost = countAgregatedCost(data, PEPCO);
+const petrolCost = countAgregatedCost(data, PETROL);
+const medicineCost = countAgregatedCost(data, MEDICINE);
+const doctorCost = countAgregatedCost(data, DOCTORS);
+const stomatologiaCost = countAgregatedCost(data, DENTISTRY);
+const diabeticCost = countAgregatedCost(data, DIABETIC);
+const mrowkaBricoCost = countAgregatedCost(data, TOOLS_SHOPS);   
+const smallShopsCost = countAgregatedCost(data, SMALL_SHOPS);
+const gamesCost = countAgregatedCost(data, GAMES);
+const mediaCost = countAgregatedCost(data, MEDIA);
+const orangeFlex = countAgregatedCost(data, ORANGE);
+const clothsCost = countAgregatedCost(data, CLOTHS);
+const myjniaCost = countAgregatedCost(data, CAR_SHOWER);
+const farmaCost = countAgregatedCost(data, FARM);
+const butyCost = countAgregatedCost(data, SHOES);
+const kosmetyki = countAgregatedCost(data, COSMETICS);
+const empik = countAgregatedCost(data, EMPIK);
+const restaurant = countAgregatedCost(data, RESTAURANT);
+const miedzyzdroje = countAgregatedCost(data, MIEDZYZDROJE);
+const kino = countAgregatedCost(data, CINEMA);
+const sport = countAgregatedCost(data, SPORT);
+const fryzjer = countAgregatedCost(data, HAIR_CUT);
+const pets = countAgregatedCost(data, PETS);
 
 printCost('Allegro', allegroCost);
 printCost('Markets', marketCost);
@@ -76,8 +117,8 @@ printCost('Buty', butyCost);
 printCost('Media', mediaCost);
 printCost('Empik', empik);
 printCost('Restauracja', restaurant);
-printCost('miedzyzdroje', miedzyzdroje);
-printCost('kino', kino);
-printCost('sport', sport);
-printCost('fryzjer', fryzjer);
-printCost('pets', pets);
+printCost('Miedzyzdroje', miedzyzdroje);
+printCost('Kino', kino);
+printCost('Sport', sport);
+printCost('Fryzjer', fryzjer);
+printCost('Pets', pets);
