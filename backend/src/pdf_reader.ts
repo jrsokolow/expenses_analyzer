@@ -22,7 +22,7 @@ const SMALL_SHOPS = ['ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATES
 const GAMES = ['LONDON', 'GOGcomECOM', 'Google Play', 'Steam', 'STEAM', 'PlayStation'];
 const MEDIA = ['Disney', 'YouTubePremium', 'SKYSHOWTIME'];
 const ORANGE = ['FLEX'];
-const CLOTHS = ['smyk','SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE'];
+const CLOTHS = ['smyk','SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED'];
 const CAR_SHOWER = ['WIKON','Myjnia'];
 const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO'];
 const SHOES = ['CCC'];
@@ -33,11 +33,12 @@ const MIEDZYZDROJE = ['MIEDZYZDROJE'];
 const CINEMA = ['DOM KULTURY'];
 const SPORT = ['MARTES'];
 const HAIR_CUT = ['FRYZJERSKI','FRYZJERSKA'];
-const PETS = ['PATIVET'];
+const PETS = ['PATIVET','KAKADU'];
+const ENGLISH = ['edoo'];
 
 const ALL = [ALLEGRO, MARKETS, PEPCO, PETROL, MEDICINE, DOCTORS, DENTISTRY, DIABETIC, TOOLS_SHOPS, 
     SMALL_SHOPS, GAMES, MEDIA, ORANGE, CLOTHS, CAR_SHOWER, FARM, SHOES, COSMETICS, EMPIK, RESTAURANT,
-MIEDZYZDROJE, CINEMA, SPORT, HAIR_CUT, PETS].flat();
+MIEDZYZDROJE, CINEMA, SPORT, HAIR_CUT, PETS, ENGLISH].flat();
 
 const countCost = (data:ExcelRow[], key:string):number => {
     return data.filter(item => {
@@ -64,7 +65,10 @@ const findNotCategorizedCosts = () => {
     data.forEach(cost => {
         const isUnknownCategory = !ALL.some(substring=>cost.Opis.includes(substring));
         if(isUnknownCategory) {
-            console.log(cost);
+            console.log(cost['Data transakcji']);
+            console.log(cost['Opis']);
+            console.log(cost['Kwota']);
+            console.log('>>>>>>>>>>>>>>>>>>>>>>..');
         }
     });
 }
@@ -96,6 +100,7 @@ const kino = countAgregatedCost(data, CINEMA);
 const sport = countAgregatedCost(data, SPORT);
 const fryzjer = countAgregatedCost(data, HAIR_CUT);
 const pets = countAgregatedCost(data, PETS);
+const english = countAgregatedCost(data, ENGLISH);
 
 printCost('Allegro', allegroCost);
 printCost('Markets', marketCost);
@@ -122,3 +127,4 @@ printCost('Kino', kino);
 printCost('Sport', sport);
 printCost('Fryzjer', fryzjer);
 printCost('Pets', pets);
+printCost('English', english);
