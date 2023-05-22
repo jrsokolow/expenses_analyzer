@@ -40,7 +40,7 @@ app.get('/api/data/:param', async (req: Request, res: Response) => {
       0
     );
 
-    res.json({ filteredData, totalAmount });
+    res.json({ param, totalAmount });
   } catch (error) {
     console.error('Wystąpił błąd:', error);
     res.status(500).json({ error: 'Wystąpił błąd serwera.' });
