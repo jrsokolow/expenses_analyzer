@@ -1,8 +1,69 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, json } from 'express';
 import { Row } from 'read-excel-file';
 
 import path from 'path';
 import readExcelFile from 'read-excel-file/node';
+
+const ALLEGRO = ['Allegro']
+const MARKETS = ['DINO', 'NETTO', 'BIEDRONKA','CARREFOUR'];
+const PEPCO = ['PEPCO'];
+const PETROL = ['STACJA PALIW', 'LOTOS', 'ORLEN', 'CIRCLE'];
+const MEDICINE = ['APTEKA'];
+const DOCTORS = ['MEDICUS'];
+const DENTISTRY = ['STOMATOLOGIA'];
+const DIABETIC = ['diabetyk24', 'FRANCISCO', 'Aero-Medika'];
+const TOOLS_SHOPS = ['MROWKA', 'GRANAT'];
+const SMALL_SHOPS = ['ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE O CLOCK', 'LEKS'];
+const GAMES = ['LONDON', 'GOGcomECOM', 'Google Play', 'Steam', 'STEAM', 'PlayStation'];
+const MEDIA = ['Disney', 'YouTubePremium', 'SKYSHOWTIME'];
+const ORANGE = ['FLEX'];
+const CLOTHS = ['smyk','SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED'];
+const CAR_SHOWER = ['WIKON','Myjnia'];
+const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO'];
+const SHOES = ['CCC'];
+const COSMETICS = ['ROSSMANN'];
+const EMPIK = ['EMPIK'];
+const RESTAURANT = ['SLOW FOOD', 'Verde', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy'];
+const MIEDZYZDROJE = ['MIEDZYZDROJE'];
+const CINEMA = ['DOM KULTURY'];
+const SPORT = ['MARTES'];
+const HAIR_CUT = ['FRYZJERSKI','FRYZJERSKA'];
+const PETS = ['PATIVET','KAKADU'];
+const ENGLISH = ['edoo'];
+
+// Definicja obiektu z mapowaniem stałych
+const constantMap: { [key: string]: string[] } = {
+  ALLEGRO,
+  MARKETS,
+  PEPCO,
+  PETROL,
+  MEDICINE,
+  DOCTORS,
+  DENTISTRY,
+  DIABETIC,
+  TOOLS_SHOPS,
+  SMALL_SHOPS,
+  GAMES,
+  MEDIA,
+  ORANGE,
+  CLOTHS,
+  CAR_SHOWER,
+  FARM,
+  SHOES,
+  COSMETICS,
+  EMPIK,
+  RESTAURANT,
+  MIEDZYZDROJE,
+  CINEMA,
+  SPORT,
+  HAIR_CUT,
+  PETS,
+  ENGLISH,
+};
+
+function isCostMatch(value: string, array: string[]): boolean {
+  return array.some((str) => value.includes(str));
+}
 
 const app = express();
 
@@ -16,22 +77,40 @@ interface ExcelRow {
 }
 
 // Endpoint zwracający dane z pliku XLSX w formie JSON
-app.get('/api/data/:param', async (req: Request, res: Response) => {
+app.get('/api/data/:constant', async (req: Request, res: Response) => {
   try {
-    const param = req.params.param; // Pobranie przekazanego parametru
+    const constant = req.params.constant;
+
+    // Sprawdź, czy przekazana stała istnieje w mapie
+    if (!constantMap.hasOwnProperty(constant)) {
+      res.status(400).json({ error: 'Invalid constant' });
+      return;
+    }
+
+    const constantArray: string[] = constantMap[constant];
+
+    console.log(constantArray);
 
     const rows: Row[] = await readExcelFile(excelFilePath);
 
     const jsonData: ExcelRow[] = rows
       .slice(1)
+      .filter((row: Row) => { 
+        return isCostMatch(row[6]?.toString() || '', constantArray) 
+      })
       .map((row: Row) => ({
-        Opis: row[6]?.toString() || '', // Pobranie wartości z pierwszej kolumny
-        Kwota: row[3]?.toString() || '', // Pobranie wartości z drugiej kolumny
+        Opis: row[6]?.toString() || '',
+        Kwota: row[3]?.toString() || '',
       }));
 
+      console.log(jsonData);
+
+
     // Filtruj dane na podstawie przekazanego parametru
-    const filteredData = jsonData.filter(
-      (row: ExcelRow) => row.Opis.includes(param)
+    const filteredData: ExcelRow[] = jsonData.filter((row: ExcelRow) =>
+      constantArray.some((constantValue: string) =>
+        row.Opis.includes(constantValue)
+      )
     );
 
     // Sumowanie wartości pola "Kwota"
@@ -40,7 +119,7 @@ app.get('/api/data/:param', async (req: Request, res: Response) => {
       0
     );
 
-    res.json({ param, totalAmount });
+    res.json({ constantArray, totalAmount });
   } catch (error) {
     console.error('Wystąpił błąd:', error);
     res.status(500).json({ error: 'Wystąpił błąd serwera.' });
