@@ -1,0 +1,11 @@
+<div>
+    <h2>All Costs</h2>
+    <ul>
+      <li *ngFor="let cost of costs">{{ cost.name }}: {{ cost.value }}</li>
+    </ul>
+    <h2>Unmatched Costs</h2>
+    <ul>
+      <li *ngFor="let cost of unmatchedCosts">{{ cost.description }}: {{ cost.amount }}</li>
+    </ul>
+  </div>
+  

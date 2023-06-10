@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { Row } from 'read-excel-file';
+import cors from 'cors';
 
 import readExcelFile from 'read-excel-file/node';
 
@@ -66,6 +67,8 @@ function isCostMatch(value: string, array: string[]): boolean {
 
 const app = express();
 
+app.use(cors());
+
 // Ścieżka do pliku XLSX (uwzględniająca lokalizację pliku)
 const excelFilePath = 'dist/source.xlsx';
 
@@ -119,6 +122,41 @@ app.get('/api/data/:constant', async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Wystąpił błąd serwera.' });
   }
 });
+
+app.get('/api/costs', async (req: Request, res: Response) => {
+  try {
+    const rows: Row[] = await readExcelFile(excelFilePath);
+
+    const jsonData: ExcelRow[] = rows
+      .slice(1)
+      .map((row: Row) => ({
+        Opis: row[6]?.toString() || '',
+        Kwota: row[3]?.toString() || '',
+      }));
+
+    const costs: Record<string, number> = {};
+
+    Object.keys(constantMap).forEach(constant => {
+      const constantArray = constantMap[constant];
+      const totalAmount = jsonData.reduce(
+        (sum: number, row: ExcelRow) => {
+          if (isCostMatch(row.Opis, constantArray)) {
+            return sum + parseFloat(row.Kwota.replace(',', '').replace('-', ''));
+          }
+          return sum;
+        },
+        0
+      );
+      costs[constant] = Math.floor(totalAmount);
+    });
+
+    res.json(costs);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 app.get('/api/constants', (req: Request, res: Response) => {
   try {
