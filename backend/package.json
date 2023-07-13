@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "npm run build && node dist/index.js",
+    "debug": "nest start --debug --watch",
     "build": "tsc && npm run copy-file",
     "copy-file": "copyfiles -u 1 data/source.xlsx dist"
   },
@@ -16,6 +17,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "read-excel-file": "^5.6.1",
+    "source-map-support": "^0.5.21",
     "ts-xlsx": "^0.0.4",
     "xlsx": "^0.18.5"
   },

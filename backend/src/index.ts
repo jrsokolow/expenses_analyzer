@@ -7,29 +7,30 @@ import readExcelFile from 'read-excel-file/node';
 const ALLEGRO = ['Allegro']
 const MARKETS = ['DINO', 'NETTO', 'BIEDRONKA', 'CARREFOUR'];
 const PEPCO = ['PEPCO'];
-const PETROL = ['STACJA PALIW', 'LOTOS', 'ORLEN', 'CIRCLE'];
+const PETROL = ['STACJA PALIW', 'LOTOS', 'ORLEN', 'CIRCLE', 'NOWA SOL MOL'];
 const MEDICINE = ['APTEKA'];
-const DOCTORS = ['MEDICUS'];
+const DOCTORS = ['MEDICUS', 'ALDEMED'];
 const DENTISTRY = ['STOMATOLOGIA'];
 const DIABETIC = ['diabetyk24', 'FRANCISCO', 'Aero-Medika'];
 const TOOLS_SHOPS = ['MROWKA', 'GRANAT'];
-const SMALL_SHOPS = ['ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE O CLOCK', 'LEKS'];
+const SMALL_SHOPS = ['ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE', 'LEKS', 'ODiDO', 'PROACTIVE ZAJAC', 'MOTYKA', 'EMI S.C'];
 const GAMES = ['LONDON', 'GOGcomECOM', 'Google Play', 'Steam', 'STEAM', 'PlayStation'];
 const MEDIA = ['Disney', 'YouTubePremium', 'SKYSHOWTIME'];
 const ORANGE = ['FLEX'];
-const CLOTHS = ['smyk', 'SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED'];
-const CAR_SHOWER = ['WIKON', 'Myjnia'];
-const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO'];
-const SHOES = ['CCC'];
+const CLOTHS = ['smyk', 'SMYK', 'SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED', 'HM POL'];
+const CAR_SHOWER = ['WIKON', 'Myjnia', 'MYJNIA'];
+const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO', 'CENTRUM OGRODNICZE'];
+const SHOES = ['CCC', 'e-cizemka', 'ccc.eu'];
 const COSMETICS = ['ROSSMANN'];
 const EMPIK = ['EMPIK'];
-const RESTAURANT = ['SLOW FOOD', 'Verde', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy'];
+const RESTAURANT = ['KARMEL', 'SLOW FOOD', 'Verde', 'VERDE', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy', 'KRATKA', 'Wafelek i Kulka', 'CIACHOO'];
 const MIEDZYZDROJE = ['MIEDZYZDROJE'];
 const CINEMA = ['DOM KULTURY'];
 const SPORT = ['MARTES'];
 const HAIR_CUT = ['FRYZJERSKI', 'FRYZJERSKA'];
 const PETS = ['PATIVET', 'KAKADU'];
 const ENGLISH = ['edoo'];
+const CASH_MACHINE = ['PLANET CASH', 'KOZUCHOW FILIA'];
 
 // Definicja obiektu z mapowaniem stałych
 const constantMap: Record<string, string[]> = {
@@ -59,10 +60,11 @@ const constantMap: Record<string, string[]> = {
   HAIR_CUT,
   PETS,
   ENGLISH,
+  CASH_MACHINE
 };
 
 function isCostMatch(value: string, array: string[]): boolean {
-  return array.some((str) => value.includes(str));
+  return array.some((str) => value.toLowerCase().includes(str.toLowerCase()));
 }
 
 const app = express();
@@ -105,8 +107,12 @@ app.get('/api/data/:constant', async (req: Request, res: Response) => {
 
     // Filtruj dane na podstawie przekazanego parametru
     const filteredData: ExcelRow[] = jsonData.filter((row: ExcelRow) =>
-      constantArray.some((constantValue: string) =>
-        row.Opis.includes(constantValue)
+      constantArray.some((constantValue: string) => {
+        console.log(row.Opis.toLowerCase());
+        console.log(constantValue.toLowerCase());
+        console.log('>>>>>>>>>>>>>..');
+        return row.Opis.toLowerCase().includes(constantValue.toLowerCase());
+      }
       )
     );
 
