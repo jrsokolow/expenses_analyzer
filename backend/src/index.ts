@@ -17,13 +17,13 @@ const SMALL_SHOPS = ['ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATES
 const GAMES = ['LONDON', 'GOGcomECOM', 'Google Play', 'Steam', 'STEAM', 'PlayStation'];
 const MEDIA = ['Disney', 'YouTubePremium', 'SKYSHOWTIME'];
 const ORANGE = ['FLEX'];
-const CLOTHS = ['smyk', 'SMYK', 'SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED', 'HM POL'];
-const CAR_SHOWER = ['WIKON', 'Myjnia', 'MYJNIA'];
+const CLOTHS = ['smyk', 'SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED', 'HM POL', 'GALANTERIA ODZIEZOWA'];
+const CAR_SHOWER = ['WIKON', 'Myjnia'];
 const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO', 'CENTRUM OGRODNICZE'];
 const SHOES = ['CCC', 'e-cizemka', 'ccc.eu'];
 const COSMETICS = ['ROSSMANN'];
 const EMPIK = ['EMPIK'];
-const RESTAURANT = ['KARMEL', 'SLOW FOOD', 'Verde', 'VERDE', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy', 'KRATKA', 'Wafelek i Kulka', 'CIACHOO'];
+const RESTAURANT = ['KARMEL', 'SLOW FOOD', 'Verde', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy', 'KRATKA', 'Wafelek i Kulka', 'CIACHOO'];
 const MIEDZYZDROJE = ['MIEDZYZDROJE'];
 const CINEMA = ['DOM KULTURY'];
 const SPORT = ['MARTES'];
@@ -31,6 +31,8 @@ const HAIR_CUT = ['FRYZJERSKI', 'FRYZJERSKA'];
 const PETS = ['PATIVET', 'KAKADU'];
 const ENGLISH = ['edoo'];
 const CASH_MACHINE = ['PLANET CASH', 'KOZUCHOW FILIA'];
+const CARD_SERVICE = ['OBSLUGE KARTY'];
+const CAR_MECHANIC = ['EXPORT IMPORT LESZEK'];
 
 // Definicja obiektu z mapowaniem stałych
 const constantMap: Record<string, string[]> = {
@@ -60,7 +62,9 @@ const constantMap: Record<string, string[]> = {
   HAIR_CUT,
   PETS,
   ENGLISH,
-  CASH_MACHINE
+  CASH_MACHINE,
+  CARD_SERVICE,
+  CAR_MECHANIC
 };
 
 function isCostMatch(value: string, array: string[]): boolean {
@@ -108,9 +112,6 @@ app.get('/api/data/:constant', async (req: Request, res: Response) => {
     // Filtruj dane na podstawie przekazanego parametru
     const filteredData: ExcelRow[] = jsonData.filter((row: ExcelRow) =>
       constantArray.some((constantValue: string) => {
-        console.log(row.Opis.toLowerCase());
-        console.log(constantValue.toLowerCase());
-        console.log('>>>>>>>>>>>>>..');
         return row.Opis.toLowerCase().includes(constantValue.toLowerCase());
       }
       )
@@ -186,7 +187,7 @@ app.get('/api/non-matching', async (req: Request, res: Response) => {
 
     const nonMatchingRows = jsonData.filter((row: ExcelRow) => {
       const values = Object.values(constantMap).flat();
-      return !values.some((value) => row.Opis.includes(value));
+      return !values.some((value) => row.Opis.toLowerCase().includes(value.toLowerCase()));
     });
     res.json(nonMatchingRows);
   } catch (error) {
