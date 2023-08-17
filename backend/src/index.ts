@@ -84,52 +84,6 @@ interface ExcelRow {
   Kwota: string;
 }
 
-// Endpoint zwracający dane z pliku XLSX w formie JSON
-app.get('/api/data/:constant', async (req: Request, res: Response) => {
-  try {
-    const constant = req.params.constant;
-
-    // Sprawdź, czy przekazana stała istnieje w mapie
-    if (!constantMap.hasOwnProperty(constant)) {
-      res.status(400).json({ error: 'Invalid constant' });
-      return;
-    }
-
-    const constantArray: string[] = constantMap[constant];
-
-    const rows: Row[] = await readExcelFile(excelFilePath);
-
-    const jsonData: ExcelRow[] = rows
-      .slice(1)
-      .filter((row: Row) => {
-        return isCostMatch(row[6]?.toString() || '', constantArray)
-      })
-      .map((row: Row) => ({
-        Opis: row[6]?.toString() || '',
-        Kwota: row[3]?.toString() || '',
-      }));
-
-    // Filtruj dane na podstawie przekazanego parametru
-    const filteredData: ExcelRow[] = jsonData.filter((row: ExcelRow) =>
-      constantArray.some((constantValue: string) => {
-        return row.Opis.toLowerCase().includes(constantValue.toLowerCase());
-      }
-      )
-    );
-
-    // Sumowanie wartości pola "Kwota"
-    const totalAmount = filteredData.reduce(
-      (sum: number, row: ExcelRow) => sum + parseFloat(row.Kwota.replace(',', '').replace('-', '')),
-      0
-    );
-
-    res.json({ constantArray, totalAmount });
-  } catch (error) {
-    console.error('Wystąpił błąd:', error);
-    res.status(500).json({ error: 'Wystąpił błąd serwera.' });
-  }
-});
-
 app.get('/api/costs', async (req: Request, res: Response) => {
   try {
     const rows: Row[] = await readExcelFile(excelFilePath);
@@ -158,16 +112,6 @@ app.get('/api/costs', async (req: Request, res: Response) => {
     });
 
     res.json(costs);
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-
-app.get('/api/constants', (req: Request, res: Response) => {
-  try {
-    res.json(constantMap);
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Internal server error' });
