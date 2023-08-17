@@ -1,4 +1,5 @@
 **Plan**
+* Use AWS api gateway and lambda to deploy backend app
 * Add docker file to both backend and frontend apps
 * Install backend and frontend on AWS
 * Automate on AWS (batch service) fetching excel file from bank 
