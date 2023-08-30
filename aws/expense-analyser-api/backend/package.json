@@ -2,8 +2,7 @@
   "name": "excel-api",
   "version": "1.0.0",
   "description": "Aplikacja do odczytu danych z pliku Excel",
-  "main": "dist/index.js",
-  "type": "module",
+  "main": "app.js",
   "scripts": {
     "start": "npm run build && node dist/index.js",
     "dev": "nodemon src/index.ts",

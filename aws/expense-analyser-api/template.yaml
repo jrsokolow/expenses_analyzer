@@ -33,7 +33,7 @@ Resources:
         Sourcemap: true
         EntryPoints: 
         - app.ts
-  Costs:
+  CostsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: backend/
@@ -68,3 +68,13 @@ Outputs:
   HelloWorldFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
     Value: !GetAtt HelloWorldFunctionRole.Arn
+  #Costs
+  CostsApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/costs/"
+  CostsFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt CostsFunction.Arn
+  CostsFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt CostsFunctionRole.Arn
