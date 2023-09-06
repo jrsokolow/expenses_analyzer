@@ -70,11 +70,11 @@ Outputs:
     Value: !GetAtt HelloWorldFunctionRole.Arn
   #Costs
   CostsApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Description: "API Gateway endpoint URL for Prod stage for Costs function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/costs/"
   CostsFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: "Costs Lambda Function ARN"
     Value: !GetAtt CostsFunction.Arn
   CostsFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
+    Description: "Implicit IAM Role created for Costs function"
     Value: !GetAtt CostsFunctionRole.Arn
