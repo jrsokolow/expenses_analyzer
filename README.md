@@ -5,3 +5,7 @@
 * Automate on AWS (batch service) fetching excel file from bank 
 * Store cost keys in AWS
 * Implement cost keys editor including adding unknown costs to the defined list
+
+
+YouTube
+https://www.youtube.com/watch?v=HOxsacd8Frw
