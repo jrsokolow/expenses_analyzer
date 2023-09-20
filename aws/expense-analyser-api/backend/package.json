@@ -13,6 +13,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.414.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "read-excel-file": "^5.6.1",
