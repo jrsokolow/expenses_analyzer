@@ -1,6 +1,7 @@
 import { Row } from 'read-excel-file';
 
 import readExcelFile from 'read-excel-file/node';
+import { loadCsv } from '../aws/s3.service';
 
 const ALLEGRO = ['Allegro']
 const MARKETS = ['DINO', 'NETTO', 'BIEDRONKA', 'CARREFOUR'];
@@ -70,7 +71,7 @@ function isCostMatch(value: string, array: string[]): boolean {
 }
 
 // Ścieżka do pliku XLSX (uwzględniająca lokalizację pliku)
-const excelFilePath = 'dist/source.xlsx';
+const excelFilePath = 'source.xlsx';
 
 // Interfejs opisujący strukturę wiersza w pliku XLSX
 interface ExcelRow {
@@ -80,6 +81,8 @@ interface ExcelRow {
 
 export const getCosts = async () => {
   try {
+    await loadCsv();
+    
     const rows: Row[] = await readExcelFile(excelFilePath);
 
     const jsonData: ExcelRow[] = rows

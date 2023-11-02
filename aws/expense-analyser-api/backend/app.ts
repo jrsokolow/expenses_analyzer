@@ -13,7 +13,7 @@ import { getCosts } from './src/costs/costs.service';
 
 export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     try {
-        const costs = getCosts();
+        // const costs = getCosts();
         return {
             statusCode: 200,
             body: JSON.stringify({
