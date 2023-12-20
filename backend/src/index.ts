@@ -13,15 +13,15 @@ const DOCTORS = ['MEDICUS', 'ALDEMED'];
 const DENTISTRY = ['STOMATOLOGIA'];
 const DIABETIC = ['diabetyk24', 'FRANCISCO', 'Aero-Medika'];
 const TOOLS_SHOPS = ['MROWKA', 'GRANAT'];
-const SMALL_SHOPS = ['ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE', 'LEKS', 'ODiDO', 'PROACTIVE ZAJAC', 'MOTYKA', 'EMI S.C'];
+const SMALL_SHOPS = ['ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE', 'LEKS', 'ODiDO', 'PROACTIVE ZAJAC', 'MOTYKA', 'EMI S.C', 'CUKIERNIA SNICKERS', 'DANIEL FIJO'];
 const GAMES = ['LONDON', 'GOGcomECOM', 'Google Play', 'Steam', 'STEAM', 'PlayStation'];
-const MEDIA = ['Disney', 'YouTubePremium', 'SKYSHOWTIME'];
+const MEDIA = ['Disney', 'YouTubePremium', 'SKYSHOWTIME', 'rp.pl'];
 const ORANGE = ['FLEX'];
-const CLOTHS = ['smyk', 'SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED', 'HM POL', 'GALANTERIA ODZIEZOWA'];
+const CLOTHS = ['smyk', 'SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED', 'HM POL', 'GALANTERIA ODZIEZOWA', 'HEBE', 'CROPP'];
 const CAR_SHOWER = ['WIKON', 'Myjnia'];
 const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO', 'CENTRUM OGRODNICZE'];
 const SHOES = ['CCC', 'e-cizemka', 'ccc.eu'];
-const COSMETICS = ['ROSSMANN'];
+const COSMETICS = ['ROSSMANN', 'SZALATA CHLEBOWSKA'];
 const EMPIK = ['EMPIK'];
 const RESTAURANT = ['KARMEL', 'SLOW FOOD', 'Verde', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy', 'KRATKA', 'Wafelek i Kulka', 'CIACHOO'];
 const MIEDZYZDROJE = ['MIEDZYZDROJE'];
@@ -33,6 +33,8 @@ const ENGLISH = ['edoo'];
 const CASH_MACHINE = ['PLANET CASH', 'KOZUCHOW FILIA'];
 const CARD_SERVICE = ['OBSLUGE KARTY'];
 const CAR_MECHANIC = ['EXPORT IMPORT LESZEK'];
+const SALETNIK = ['Opłata za terapię'];
+const PSYCHOTERAPIA = ['koleo', 'Wroclaw', 'WROCLAW', 'UBER'];
 
 // Definicja obiektu z mapowaniem stałych
 const constantMap: Record<string, string[]> = {
@@ -64,7 +66,9 @@ const constantMap: Record<string, string[]> = {
   ENGLISH,
   CASH_MACHINE,
   CARD_SERVICE,
-  CAR_MECHANIC
+  CAR_MECHANIC,
+  SALETNIK,
+  PSYCHOTERAPIA
 };
 
 function isCostMatch(value: string, array: string[]): boolean {
