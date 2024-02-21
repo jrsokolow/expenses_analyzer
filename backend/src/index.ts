@@ -9,7 +9,7 @@ const MARKETS = ['DINO', 'NETTO', 'BIEDRONKA', 'CARREFOUR'];
 const PEPCO = ['PEPCO'];
 const PETROL = ['STACJA PALIW', 'LOTOS', 'ORLEN', 'CIRCLE', 'NOWA SOL MOL'];
 const MEDICINE = ['APTEKA'];
-const DOCTORS = ['MEDICUS', 'ALDEMED'];
+const DOCTORS = ['MEDICUS', 'ALDEMED','PERINATEA'];
 const DENTISTRY = ['STOMATOLOGIA'];
 const DIABETIC = ['diabetyk24', 'FRANCISCO', 'Aero-Medika'];
 const TOOLS_SHOPS = ['MROWKA', 'GRANAT'];
@@ -20,7 +20,7 @@ const ORANGE = ['FLEX'];
 const CLOTHS = ['smyk', 'SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED', 'HM POL', 'GALANTERIA ODZIEZOWA', 'HEBE', 'CROPP'];
 const CAR_SHOWER = ['WIKON', 'Myjnia'];
 const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO', 'CENTRUM OGRODNICZE'];
-const SHOES = ['CCC', 'e-cizemka', 'ccc.eu'];
+const SHOES = ['CCC', 'e-cizemka', 'ccc.eu', 'eobuwie'];
 const COSMETICS = ['ROSSMANN', 'SZALATA CHLEBOWSKA'];
 const EMPIK = ['EMPIK'];
 const RESTAURANT = ['KARMEL', 'SLOW FOOD', 'Verde', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy', 'KRATKA', 'Wafelek i Kulka', 'CIACHOO'];
@@ -33,7 +33,7 @@ const ENGLISH = ['edoo'];
 const CASH_MACHINE = ['PLANET CASH', 'KOZUCHOW FILIA'];
 const CARD_SERVICE = ['OBSLUGE KARTY'];
 const CAR_MECHANIC = ['EXPORT IMPORT LESZEK'];
-const SALETNIK = ['Opłata za terapię'];
+const SALETNIK = ['Opłata za terapię', 'Opłata za psychoterapię'];
 const PSYCHOTERAPIA = ['koleo', 'Wroclaw', 'WROCLAW', 'UBER'];
 
 // Definicja obiektu z mapowaniem stałych
