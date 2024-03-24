@@ -20,7 +20,7 @@ const ORANGE = ['FLEX'];
 const CLOTHS = ['smyk', 'SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED', 'HM POL', 'GALANTERIA ODZIEZOWA', 'HEBE', 'CROPP'];
 const CAR_SHOWER = ['WIKON', 'Myjnia'];
 const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO', 'CENTRUM OGRODNICZE'];
-const SHOES = ['CCC', 'e-cizemka', 'ccc.eu', 'eobuwie'];
+const SHOES = ['CCC', 'e-cizemka', 'ccc.eu', 'eobuwie', 'zapato'];
 const COSMETICS = ['ROSSMANN', 'SZALATA CHLEBOWSKA'];
 const EMPIK = ['EMPIK'];
 const RESTAURANT = ['KARMEL', 'SLOW FOOD', 'Verde', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy', 'KRATKA', 'Wafelek i Kulka', 'CIACHOO'];
@@ -35,6 +35,7 @@ const CARD_SERVICE = ['OBSLUGE KARTY'];
 const CAR_MECHANIC = ['EXPORT IMPORT LESZEK'];
 const SALETNIK = ['Opłata za terapię', 'Opłata za psychoterapię'];
 const PSYCHOTERAPIA = ['koleo', 'Wroclaw', 'WROCLAW', 'UBER'];
+const METLIFE = ['21754947'];
 
 // Definicja obiektu z mapowaniem stałych
 const constantMap: Record<string, string[]> = {
@@ -68,7 +69,8 @@ const constantMap: Record<string, string[]> = {
   CARD_SERVICE,
   CAR_MECHANIC,
   SALETNIK,
-  PSYCHOTERAPIA
+  PSYCHOTERAPIA,
+  METLIFE
 };
 
 function isCostMatch(value: string, array: string[]): boolean {
