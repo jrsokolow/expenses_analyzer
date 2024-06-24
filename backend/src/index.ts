@@ -5,7 +5,7 @@ import cors from 'cors';
 import readExcelFile from 'read-excel-file/node';
 
 const SMALL_SHOPS = ['ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE', 'LEKS', 'ODiDO', 'PROACTIVE ZAJAC', 'MOTYKA', 'EMI S.C', 'CUKIERNIA SNICKERS', 'DANIEL FIJO', 'WEDLINDROBEX'];
-const MARKETS = ['DINO', 'NETTO', 'BIEDRONKA', 'CARREFOUR'];
+const MARKETS = ['DINO', 'NETTO', 'BIEDRONKA', 'CARREFOUR', 'LIDL'];
 const ALLEGRO = ['Allegro'];
 const PEPCO = ['PEPCO'];
 const PETROL = ['STACJA PALIW', 'LOTOS', 'ORLEN', 'CIRCLE', 'NOWA SOL MOL'];
@@ -29,7 +29,7 @@ const SPORT = ['MARTES'];
 const HAIR_CUT = ['FRYZJERSKI', 'FRYZJERSKA'];
 const PETS = ['PATIVET', 'KAKADU'];
 const ENGLISH = ['edoo'];
-const CASH_MACHINE = ['PLANET CASH', 'KOZUCHOW FILIA'];
+const CASH_MACHINE = ['PLANET CASH', 'KOZUCHOW FILIA', 'NOWA SOL BS NOWA SOL'];
 const CARD_SERVICE = ['OBSLUGE KARTY'];
 const CAR_MECHANIC = ['EXPORT IMPORT LESZEK'];
 const SALETNIK = ['Opłata za terapię', 'Opłata za psychoterapię'];
@@ -41,36 +41,36 @@ const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO', 'CENTRUM OGRODNICZE', 'ATO'];
 const constantMap: Record<string, string[]> = {
   SMALL_SHOPS,
   MARKETS,
-  ALLEGRO,
   PEPCO,
+  ALLEGRO,
   TOOLS_SHOPS,
+  PETS,
   PETROL,
-  MEDICINE,
-  DOCTORS,
-  DENTISTRY,
-  DIABETIC,
-  GAMES,
-  MEDIA,
-  ORANGE,
-  CLOTHS,
   CAR_SHOWER,
+  ORANGE,
+  MEDIA,
+  DOCTORS,
+  MEDICINE,
+  DIABETIC,
+  DENTISTRY,
+  SALETNIK,
+  CLOTHS,
+  SPORT,
   SHOES,
   COSMETICS,
-  EMPIK,
-  RESTAURANT,
-  MIEDZYZDROJE,
-  CINEMA,
-  SPORT,
   HAIR_CUT,
-  PETS,
   ENGLISH,
+  CINEMA,
+  EMPIK,
+  GAMES,
+  RESTAURANT,
+  PSYCHOTERAPIA,
   CASH_MACHINE,
   CARD_SERVICE,
   CAR_MECHANIC,
-  SALETNIK,
-  PSYCHOTERAPIA,
   METLIFE,
   FARM,
+  MIEDZYZDROJE,
 };
 
 function isCostMatch(value: string, array: string[]): boolean {
