@@ -4,9 +4,10 @@ import cors from 'cors';
 
 import readExcelFile from 'read-excel-file/node';
 
-const SMALL_SHOPS = ['ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE', 'LEKS', 'ODiDO', 'PROACTIVE ZAJAC', 'MOTYKA', 'EMI S.C', 'CUKIERNIA SNICKERS', 'DANIEL FIJO', 'WEDLINDROBEX'];
+const SMALL_SHOPS = ['Konotop PUH JOZEFOW RYSZARD', 'ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE', 'LEKS', 'ODiDO', 'PROACTIVE ZAJAC', 'MOTYKA', 'EMI S.C', 'CUKIERNIA SNICKERS', 'DANIEL FIJO', 'WEDLINDROBEX'];
 const MARKETS = ['DINO', 'NETTO', 'BIEDRONKA', 'CARREFOUR', 'LIDL'];
 const ALLEGRO = ['Allegro'];
+const OLX = ['olx.pl'];
 const PEPCO = ['PEPCO'];
 const PETROL = ['STACJA PALIW', 'LOTOS', 'ORLEN', 'CIRCLE', 'NOWA SOL MOL'];
 const MEDICINE = ['APTEKA'];
@@ -15,17 +16,17 @@ const DENTISTRY = ['STOMATOLOGIA'];
 const DIABETIC = ['diabetyk24', 'FRANCISCO', 'Aero-Medika', 'sugarcubes'];
 const TOOLS_SHOPS = ['MROWKA', 'GRANAT'];
 const GAMES = ['LONDON', 'GOGcomECOM', 'Steam', 'STEAM', 'PlayStation'];
-const MEDIA = ['Disney', 'YouTubePremium', 'SKYSHOWTIME', 'rp.pl', 'CANAL', 'GOOGLE'];
+const MEDIA = ['YouTubePremium', 'rp.pl', 'Netflix', 'NETFLIX', 'Google Play', 'help.max.com'];
 const ORANGE = ['FLEX'];
-const CLOTHS = ['smyk', 'SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED', 'HM POL', 'GALANTERIA ODZIEZOWA', 'HEBE', 'CROPP'];
+const CLOTHS = ['zalando', 'miluba.pl', 'smyk', 'SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED', 'HM POL', 'GALANTERIA ODZIEZOWA', 'HEBE', 'CROPP'];
 const CAR_SHOWER = ['WIKON', 'Myjnia'];
 const SHOES = ['CCC', 'e-cizemka', 'ccc.eu', 'eobuwie', 'zapato'];
 const COSMETICS = ['ROSSMANN', 'SZALATA CHLEBOWSKA'];
 const EMPIK = ['EMPIK'];
-const RESTAURANT = ['KARMEL', 'SLOW FOOD', 'Verde', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy', 'KRATKA', 'Wafelek i Kulka', 'CIACHOO', 'PIERINO', 'CAFFETTERIA GELATERIA'];
+const RESTAURANT = ['ZIELONA GORA BW SPOLKA Z O. O.', 'MOCCA', 'KARMEL', 'SLOW FOOD', 'Verde', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy', 'KRATKA', 'Wafelek i Kulka', 'CIACHOO', 'PIERINO', 'CAFFETTERIA GELATERIA'];
 const MIEDZYZDROJE = ['MIEDZYZDROJE'];
 const CINEMA = ['DOM KULTURY'];
-const SPORT = ['MARTES'];
+const SPORT = ['www.decathlon.pl', 'MARTES'];
 const HAIR_CUT = ['FRYZJERSKI', 'FRYZJERSKA'];
 const PETS = ['PATIVET', 'KAKADU'];
 const ENGLISH = ['edoo'];
@@ -36,6 +37,7 @@ const SALETNIK = ['Opłata za terapię', 'Opłata za psychoterapię'];
 const PSYCHOTERAPIA = ['koleo', 'Wroclaw', 'WROCLAW', 'UBER'];
 const METLIFE = ['21754947'];
 const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO', 'CENTRUM OGRODNICZE', 'ATO'];
+const WAKACJE_JANOWICE = ['KOWARY', 'Kowary', 'Janowice', 'Mala Upa', 'Jelenia Gora', 'SZRENICA', 'szrenica', 'SZKLARSKA', 'KARPNIKI', ' STARA STAJNIA']
 
 // Definicja obiektu z mapowaniem stałych
 const constantMap: Record<string, string[]> = {
@@ -43,6 +45,7 @@ const constantMap: Record<string, string[]> = {
   MARKETS,
   PEPCO,
   ALLEGRO,
+  OLX,
   TOOLS_SHOPS,
   PETS,
   PETROL,
@@ -71,6 +74,7 @@ const constantMap: Record<string, string[]> = {
   METLIFE,
   FARM,
   MIEDZYZDROJE,
+  WAKACJE_JANOWICE
 };
 
 function isCostMatch(value: string, array: string[]): boolean {
