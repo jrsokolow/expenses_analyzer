@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import readExcelFile from 'read-excel-file/node';
 
-const SMALL_SHOPS = ['Konotop PUH JOZEFOW RYSZARD', 'ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE', 'LEKS', 'ODiDO', 'PROACTIVE ZAJAC', 'MOTYKA', 'EMI S.C', 'CUKIERNIA SNICKERS', 'DANIEL FIJO', 'WEDLINDROBEX'];
+const SMALL_SHOPS = ['SKLEP RYBNY', 'Konotop PUH JOZEFOW RYSZARD', 'ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE', 'LEKS', 'ODiDO', 'PROACTIVE ZAJAC', 'MOTYKA', 'EMI S.C', 'CUKIERNIA SNICKERS', 'DANIEL FIJO', 'WEDLINDROBEX'];
 const MARKETS = ['DINO', 'NETTO', 'BIEDRONKA', 'CARREFOUR', 'LIDL'];
 const ALLEGRO = ['Allegro'];
 const OLX = ['olx.pl'];
@@ -15,7 +15,7 @@ const DOCTORS = ['MEDICUS', 'ALDEMED', 'PERINATEA'];
 const DENTISTRY = ['STOMATOLOGIA'];
 const DIABETIC = ['diabetyk24', 'FRANCISCO', 'Aero-Medika', 'sugarcubes'];
 const TOOLS_SHOPS = ['MROWKA', 'GRANAT'];
-const GAMES = ['LONDON', 'GOGcomECOM', 'Steam', 'STEAM', 'PlayStation'];
+const GAMES = ['GOGcomECOM', 'Steam', 'STEAM', 'PlayStation'];
 const MEDIA = ['YouTubePremium', 'rp.pl', 'Netflix', 'NETFLIX', 'Google Play', 'help.max.com'];
 const ORANGE = ['FLEX'];
 const CLOTHS = ['zalando', 'miluba.pl', 'smyk', 'SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED', 'HM POL', 'GALANTERIA ODZIEZOWA', 'HEBE', 'CROPP'];
@@ -23,9 +23,9 @@ const CAR_SHOWER = ['WIKON', 'Myjnia'];
 const SHOES = ['CCC', 'e-cizemka', 'ccc.eu', 'eobuwie', 'zapato'];
 const COSMETICS = ['ROSSMANN', 'SZALATA CHLEBOWSKA'];
 const EMPIK = ['EMPIK'];
-const RESTAURANT = ['ZIELONA GORA BW SPOLKA Z O. O.', 'MOCCA', 'KARMEL', 'SLOW FOOD', 'Verde', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy', 'KRATKA', 'Wafelek i Kulka', 'CIACHOO', 'PIERINO', 'CAFFETTERIA GELATERIA'];
+const RESTAURANT = ['GRYCAN LODY OD POKOLEN', 'TOMASZ KUROS', 'ZIELONA GORA BW SPOLKA Z O.O.', 'MOCCA', 'KARMEL', 'SLOW FOOD', 'Verde', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy', 'KRATKA', 'Wafelek i Kulka', 'CIACHOO', 'PIERINO', 'CAFFETTERIA GELATERIA'];
 const MIEDZYZDROJE = ['MIEDZYZDROJE'];
-const CINEMA = ['DOM KULTURY'];
+const CINEMA = ['DOM KULTURY', 'cinema-city'];
 const SPORT = ['www.decathlon.pl', 'MARTES'];
 const HAIR_CUT = ['FRYZJERSKI', 'FRYZJERSKA'];
 const PETS = ['PATIVET', 'KAKADU'];
@@ -34,7 +34,7 @@ const CASH_MACHINE = ['PLANET CASH', 'KOZUCHOW FILIA', 'NOWA SOL BS NOWA SOL'];
 const CARD_SERVICE = ['OBSLUGE KARTY'];
 const CAR_MECHANIC = ['EXPORT IMPORT LESZEK'];
 const SALETNIK = ['Opłata za terapię', 'Opłata za psychoterapię'];
-const PSYCHOTERAPIA = ['koleo', 'Wroclaw', 'WROCLAW', 'UBER'];
+const PSYCHOTERAPIA = ['koleo', 'Wroclaw', 'WROCLAW', 'UBER', 'SWIETEJ DOM PIELGRZYMA'];
 const METLIFE = ['21754947'];
 const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO', 'CENTRUM OGRODNICZE', 'ATO'];
 const WAKACJE_JANOWICE = ['KOWARY', 'Kowary', 'Janowice', 'Mala Upa', 'Jelenia Gora', 'SZRENICA', 'szrenica', 'SZKLARSKA', 'KARPNIKI', ' STARA STAJNIA']
