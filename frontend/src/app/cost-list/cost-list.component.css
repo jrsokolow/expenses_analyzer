@@ -1,5 +1,31 @@
 ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.cost-group {
+  margin-bottom: 12px;
+}
+
+summary {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  font-weight: 600;
+}
+
+.cost-name {
+  flex: 1;
+}
+
+.cost-total {
+  white-space: nowrap;
+}
+
+.empty-items {
+  padding: 6px 0;
+  color: #666;
+}
   

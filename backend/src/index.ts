@@ -94,6 +94,20 @@ interface ExcelRow {
   Kwota: string;
 }
 
+interface CostItem {
+  description: string;
+  amount: number;
+}
+
+function parseAmount(value: string): number | null {
+  const normalizedAmount = value
+    .replace(/\s/g, '')
+    .replace(',', '.')
+    .replace(/[^0-9.-]/g, '');
+  const amount = Number.parseFloat(normalizedAmount);
+  return Number.isFinite(amount) ? Math.abs(amount) : null;
+}
+
 app.get('/api/costs', async (req: Request, res: Response) => {
   try {
     const rows: Row[] = await readExcelFile(excelFilePath);
@@ -106,25 +120,30 @@ app.get('/api/costs', async (req: Request, res: Response) => {
         Kwota: row[3]?.toString() || '',
       }));
 
-    const costs: Record<string, number> = {};
+    const costs: Record<string, { total: number; items: CostItem[] }> = {};
 
     Object.keys(constantMap).forEach(constant => {
       console.log(constant);
       const constantArray = constantMap[constant];
-      const totalAmount = jsonData.reduce((sum: number, row: ExcelRow) => {
-        if (!isCostMatch(row.Opis, constantArray)) {
-          return sum;
-        }
+      const items: CostItem[] = jsonData
+        .filter((row: ExcelRow) => isCostMatch(row.Opis, constantArray))
+        .map((row: ExcelRow) => {
+          const amount = parseAmount(row.Kwota);
+          if (amount === null) {
+            return null;
+          }
+          return {
+            description: row.Opis,
+            amount,
+          };
+        })
+        .filter((item): item is CostItem => item !== null);
 
-        console.log(row.Opis + ' ' + row.Kwota);
-        const normalizedAmount = row.Kwota
-          .replace(/\s/g, '')
-          .replace(',', '.')
-          .replace(/[^0-9.-]/g, '');
-        const amount = Number.parseFloat(normalizedAmount);
-        return Number.isFinite(amount) ? sum + Math.abs(amount) : sum;
-      }, 0);
-      costs[constant] = Math.floor(totalAmount);
+      const totalAmount = items.reduce((sum, item) => sum + item.amount, 0);
+      costs[constant] = {
+        total: Math.floor(totalAmount),
+        items,
+      };
       console.log('>>>>>>>>>>>>>>>>>>');
     });
 

@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+interface CostItem {
+  description: string;
+  amount: number;
+}
+
 interface Cost {
   name: string;
-  value: number;
+  total: number;
+  items: CostItem[];
 }
 
 interface UnmatchedCost {
@@ -31,8 +37,12 @@ export class CostListComponent implements OnInit {
   fetchCosts() {
     this.http.get<any>('http://localhost:3000/api/costs').subscribe(
       (data) => {
-        // Assuming the response JSON object has key-value pairs representing costs
-        this.costs = Object.entries(data).map(([name, value]) => ({ name, value } as Cost));
+        const entries = Object.entries(data ?? {}) as [string, { total?: number; items?: CostItem[] }][];
+        this.costs = entries.map(([name, value]) => ({
+          name,
+          total: value?.total ?? 0,
+          items: Array.isArray(value?.items) ? value.items : [],
+        }));
       },
       (error) => {
         console.log('Error fetching costs:', error);

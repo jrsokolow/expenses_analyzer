@@ -1,18 +1,29 @@
 <h3>Costs:</h3>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let cost of costs">
-      <td>{{ cost.name }}</td>
-      <td>{{ cost.value }}</td>
-    </tr>
-  </tbody>
-</table>
+<div *ngFor="let cost of costs" class="cost-group">
+  <details>
+    <summary>
+      <span class="cost-name">{{ cost.name }}</span>
+      <span class="cost-total">{{ cost.total }}</span>
+    </summary>
+    <table *ngIf="cost.items.length">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of cost.items">
+          <td>{{ item.description }}</td>
+          <td>{{ item.amount }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="!cost.items.length" class="empty-items">
+      No matching items found.
+    </div>
+  </details>
+</div>
 
 <h3>Unmatched Costs:</h3>
 <table>
