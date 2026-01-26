@@ -60,6 +60,19 @@
   border-radius: 10px;
 }
 
+.cost-group:hover {
+  border-color: #c7d7fe;
+  box-shadow: 0 0 0 2px rgba(23, 92, 211, 0.12);
+  background: #f8faff;
+}
+
+.cost-group:has(.copy-button:hover),
+.cost-group:has(.copy-button:focus-visible) {
+  border-color: #c7d7fe;
+  box-shadow: 0 0 0 2px rgba(23, 92, 211, 0.12);
+  background: #f8faff;
+}
+
 summary {
   cursor: pointer;
   display: flex;
@@ -83,6 +96,21 @@ summary {
   gap: 8px;
 }
 
+.copy-button {
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background: #fff;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.copy-button:hover,
+.copy-button:focus-visible {
+  border-color: #84adff;
+  box-shadow: 0 0 0 2px rgba(23, 92, 211, 0.2);
+}
+
 .empty-items {
   padding: 6px 0;
   color: #666;
@@ -94,6 +122,18 @@ summary {
   align-items: center;
   margin-bottom: 12px;
   flex-wrap: wrap;
+}
+
+.category-create {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.category-create input[type='text'] {
+  min-width: 220px;
 }
 
 .unmatched-controls input[type='text'] {
@@ -111,6 +151,10 @@ summary {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.92rem;
+}
+
+.data-table tbody tr:hover {
+  background: #f8fafc;
 }
 
 th,

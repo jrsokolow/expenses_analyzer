@@ -17,7 +17,7 @@ let customCategories: CategoryMap = {};
 let categoriesLoaded = false;
 
 function isCostMatch(value: string, array: string[]): boolean {
-  return array.some((str) => value.toLowerCase().includes(str.toLowerCase()));
+  return array.some((str) => value.includes(str));
 }
 
 const app = express();
@@ -83,7 +83,7 @@ function getCategoryMap(): CategoryMap {
       merged[category] = [];
     }
     values.forEach((value) => {
-      if (!merged[category].some((existing) => existing.toLowerCase() === value.toLowerCase())) {
+      if (!merged[category].some((existing) => existing === value)) {
         merged[category].push(value);
       }
     });
@@ -94,6 +94,11 @@ function getCategoryMap(): CategoryMap {
 async function saveCustomCategories(): Promise<void> {
   await fs.mkdir(path.dirname(customCategoriesPath), { recursive: true });
   await fs.writeFile(customCategoriesPath, JSON.stringify(customCategories, null, 2), 'utf-8');
+}
+
+async function saveBaseCategories(): Promise<void> {
+  await fs.mkdir(path.dirname(categoriesPath), { recursive: true });
+  await fs.writeFile(categoriesPath, JSON.stringify(baseCategories, null, 2), 'utf-8');
 }
 
 app.get('/api/costs', async (req: Request, res: Response) => {
@@ -180,6 +185,42 @@ app.get('/api/categories', async (req: Request, res: Response) => {
   }
 });
 
+app.post('/api/categories', async (req: Request, res: Response) => {
+  try {
+    await ensureCategoriesLoaded();
+    const { category } = req.body as { category?: string };
+    if (!category) {
+      res.status(400).json({ error: 'Category is required.' });
+      return;
+    }
+
+    const normalizedCategory = category.trim();
+    if (!normalizedCategory) {
+      res.status(400).json({ error: 'Category must not be empty.' });
+      return;
+    }
+
+    if (baseCategories[normalizedCategory]) {
+      res.status(400).json({ error: 'Category already exists.' });
+      return;
+    }
+
+    if (customCategories[normalizedCategory]) {
+      baseCategories[normalizedCategory] = [];
+      await saveBaseCategories();
+      res.json({ ok: true, promoted: true });
+      return;
+    }
+
+    baseCategories[normalizedCategory] = [];
+    await saveBaseCategories();
+    res.json({ ok: true });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 app.post('/api/categorize', async (req: Request, res: Response) => {
   try {
     await ensureCategoriesLoaded();
@@ -203,12 +244,21 @@ app.post('/api/categorize', async (req: Request, res: Response) => {
       customCategories[category] = [];
     }
 
-    const exists = customCategories[category].some(
+    const targetCategories = baseCategories[category] ? baseCategories : customCategories;
+    if (!targetCategories[category]) {
+      targetCategories[category] = [];
+    }
+
+    const exists = targetCategories[category].some(
       (value) => value.toLowerCase() === normalizedKeyword.toLowerCase()
     );
     if (!exists) {
-      customCategories[category].push(normalizedKeyword);
-      await saveCustomCategories();
+      targetCategories[category].push(normalizedKeyword);
+      if (targetCategories === baseCategories) {
+        await saveBaseCategories();
+      } else {
+        await saveCustomCategories();
+      }
     }
 
     res.json({ ok: true });

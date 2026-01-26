@@ -69,7 +69,7 @@
     "YouTube",
     "NBA League Pass",
     "SKYSHOWTIME",
-    "Dublin Google One"
+    "DISNEY PLUS"
   ],
   "DOCTORS": [
     "MEDICUS",
@@ -89,7 +89,7 @@
   "DENTISTRY": [
     "STOMATOLOGIA"
   ],
-  "SALETNIK": [
+  "PSYCHOTERAPIA": [
     "Opłata za terapię",
     "Opłata za psychoterapię",
     "psychoterapia"
@@ -113,10 +113,11 @@
     "CROPP",
     "vinted"
   ],
-  "SPORT": [
+  "SPORT_CLOTHS": [
     "www.decathlon.pl",
     "MARTES",
-    "AMREST SP. Z O.O. 01 POL 114.94 PLN 2026-01-18"
+    "AMREST",
+    "pdpoland"
   ],
   "SHOES": [
     "Deichmann",
@@ -177,9 +178,11 @@
     "Wafelek i Kulka",
     "CIACHOO",
     "PIERINO",
-    "CAFFETTERIA GELATERIA"
+    "CAFFETTERIA GELATERIA",
+    "JAZGOT",
+    "TADZ MAHAL"
   ],
-  "PSYCHOTERAPIA": [
+  "PSYCHOTERAPIA_STUDIES": [
     "koleo",
     "Wroclaw",
     "WROCLAW",
@@ -195,7 +198,8 @@
     "OBSLUGE KARTY"
   ],
   "CAR_MECHANIC": [
-    "EXPORT IMPORT LESZEK"
+    "EXPORT IMPORT LESZEK",
+    "STACJA KONTROLI POJAZD"
   ],
   "METLIFE": [
     "21754947"
@@ -220,5 +224,25 @@
     "SZKLARSKA",
     "KARPNIKI",
     " STARA STAJNIA"
+  ],
+  "EVENTS": [],
+  "KIDS": [
+    "Maria Sokołowska",
+    "Kosma Sokołowski"
+  ],
+  "SAVINGS": [],
+  "EDUCATION": [
+    "CURSOR",
+    "AWS EMEA",
+    "TRYHACKME"
+  ],
+  "DONATION": [
+    "caritas.pl",
+    "Darowizna",
+    "do mbank"
+  ],
+  "SPORT": [
+    "Ula Sokołowska",
+    "ELITE GYM"
   ]
 }

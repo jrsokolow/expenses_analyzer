@@ -34,6 +34,9 @@ export class CostListComponent implements OnInit {
   categories: string[] = [];
   filterText = '';
   hideCategorized = true;
+  newCategoryName = '';
+  categoryError = '';
+  isCreatingCategory = false;
 
   constructor(private http: HttpClient) { }
 
@@ -53,6 +56,20 @@ export class CostListComponent implements OnInit {
         return true;
       }
       return cost.description.toLowerCase().includes(filter);
+    });
+  }
+
+  get unmatchedTotal(): number {
+    return this.filteredUnmatchedCosts.reduce((sum, cost) => sum + (Number.isFinite(cost.amount) ? cost.amount : 0), 0);
+  }
+
+  copyTotal(total: number) {
+    if (!Number.isFinite(total)) {
+      return;
+    }
+    const value = total.toString();
+    navigator.clipboard.writeText(value).catch((error) => {
+      console.log('Failed to copy total:', error);
     });
   }
 
@@ -76,7 +93,8 @@ export class CostListComponent implements OnInit {
   fetchCategories() {
     this.http.get<string[]>('http://localhost:3000/api/categories').subscribe(
       (data) => {
-        this.categories = Array.isArray(data) ? data : [];
+        const list = Array.isArray(data) ? data : [];
+        this.categories = list.slice().sort((a, b) => a.localeCompare(b));
         this.ensureCategoriesFromCosts();
         this.applyCategoryDefaults();
       },
@@ -120,8 +138,36 @@ export class CostListComponent implements OnInit {
     if (this.categories.length || !this.costs.length) {
       return;
     }
-    this.categories = this.costs.map((cost) => cost.name);
+    this.categories = this.costs
+      .map((cost) => cost.name)
+      .slice()
+      .sort((a, b) => a.localeCompare(b));
     this.applyCategoryDefaults();
+  }
+
+  createCategory() {
+    this.categoryError = '';
+    const category = this.newCategoryName.trim();
+    if (!category) {
+      this.categoryError = 'Category name is required.';
+      return;
+    }
+
+    this.isCreatingCategory = true;
+    this.http
+      .post('http://localhost:3000/api/categories', { category })
+      .subscribe(
+        () => {
+          this.isCreatingCategory = false;
+          this.newCategoryName = '';
+          this.fetchCategories();
+        },
+        (error) => {
+          this.isCreatingCategory = false;
+          this.categoryError = error?.error?.error || 'Failed to create category.';
+          console.log('Error creating category:', error);
+        }
+      );
   }
 
   categorizeCost(cost: UnmatchedCost) {
