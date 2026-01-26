@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import { Row } from 'read-excel-file';
 import cors from 'cors';
+import fs from 'fs/promises';
+import path from 'path';
 
 import readExcelFile from 'read-excel-file/node';
 
@@ -84,6 +86,7 @@ function isCostMatch(value: string, array: string[]): boolean {
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 // Ścieżka do pliku XLSX (uwzględniająca lokalizację pliku)
 const excelFilePath = 'dist/source.xlsx';
@@ -99,6 +102,14 @@ interface CostItem {
   amount: number;
 }
 
+interface CustomCategories {
+  [category: string]: string[];
+}
+
+const customCategoriesPath = path.resolve(process.cwd(), 'data', 'custom-categories.json');
+let customCategories: CustomCategories = {};
+let customCategoriesLoaded = false;
+
 function parseAmount(value: string): number | null {
   const normalizedAmount = value
     .replace(/\s/g, '')
@@ -108,8 +119,47 @@ function parseAmount(value: string): number | null {
   return Number.isFinite(amount) ? Math.abs(amount) : null;
 }
 
+async function ensureCustomCategoriesLoaded(): Promise<void> {
+  if (customCategoriesLoaded) {
+    return;
+  }
+
+  try {
+    const raw = await fs.readFile(customCategoriesPath, 'utf-8');
+    const parsed = JSON.parse(raw) as CustomCategories;
+    customCategories = Object.fromEntries(
+      Object.entries(parsed).map(([key, value]) => [
+        key,
+        Array.isArray(value) ? value.filter((item) => typeof item === 'string') : [],
+      ])
+    );
+  } catch (error) {
+    customCategories = {};
+  }
+  customCategoriesLoaded = true;
+}
+
+function getCombinedCategoryMap(): Record<string, string[]> {
+  const combined: Record<string, string[]> = {};
+  Object.entries(constantMap).forEach(([category, values]) => {
+    combined[category] = [...values];
+  });
+  Object.entries(customCategories).forEach(([category, values]) => {
+    if (!combined[category]) {
+      combined[category] = [];
+    }
+    values.forEach((value) => {
+      if (!combined[category].some((existing) => existing.toLowerCase() === value.toLowerCase())) {
+        combined[category].push(value);
+      }
+    });
+  });
+  return combined;
+}
+
 app.get('/api/costs', async (req: Request, res: Response) => {
   try {
+    await ensureCustomCategoriesLoaded();
     const rows: Row[] = await readExcelFile(excelFilePath);
 
     const jsonData: ExcelRow[] = rows
@@ -121,10 +171,11 @@ app.get('/api/costs', async (req: Request, res: Response) => {
       }));
 
     const costs: Record<string, { total: number; items: CostItem[] }> = {};
+    const categoryMap = getCombinedCategoryMap();
 
-    Object.keys(constantMap).forEach(constant => {
+    Object.keys(categoryMap).forEach((constant) => {
       console.log(constant);
-      const constantArray = constantMap[constant];
+      const constantArray = categoryMap[constant];
       const items: CostItem[] = jsonData
         .filter((row: ExcelRow) => isCostMatch(row.Opis, constantArray))
         .map((row: ExcelRow) => {
@@ -156,6 +207,7 @@ app.get('/api/costs', async (req: Request, res: Response) => {
 
 app.get('/api/non-matching', async (req: Request, res: Response) => {
   try {
+    await ensureCustomCategoriesLoaded();
     const rows: Row[] = await readExcelFile(excelFilePath);
 
     const jsonData: ExcelRow[] = rows
@@ -166,11 +218,62 @@ app.get('/api/non-matching', async (req: Request, res: Response) => {
         Kwota: row[3]?.toString() || '',
       }));
 
+    const categoryMap = getCombinedCategoryMap();
     const nonMatchingRows = jsonData.filter((row: ExcelRow) => {
-      const values = Object.values(constantMap).flat();
+      const values = Object.values(categoryMap).flat();
       return !values.some((value) => row.Opis.toLowerCase().includes(value.toLowerCase()));
     });
     res.json(nonMatchingRows);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/categories', async (req: Request, res: Response) => {
+  try {
+    await ensureCustomCategoriesLoaded();
+    const categories = Object.keys(getCombinedCategoryMap());
+    res.json(categories);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/api/categorize', async (req: Request, res: Response) => {
+  try {
+    await ensureCustomCategoriesLoaded();
+    const { category, keyword } = req.body as { category?: string; keyword?: string };
+    if (!category || !keyword) {
+      res.status(400).json({ error: 'Category and keyword are required.' });
+      return;
+    }
+    if (!constantMap[category]) {
+      res.status(400).json({ error: 'Unknown category.' });
+      return;
+    }
+
+    const normalizedKeyword = keyword.trim();
+    if (!normalizedKeyword) {
+      res.status(400).json({ error: 'Keyword must not be empty.' });
+      return;
+    }
+
+    if (!customCategories[category]) {
+      customCategories[category] = [];
+    }
+
+    const exists = customCategories[category].some(
+      (value) => value.toLowerCase() === normalizedKeyword.toLowerCase()
+    );
+    if (!exists) {
+      customCategories[category].push(normalizedKeyword);
+      await fs.mkdir(path.dirname(customCategoriesPath), { recursive: true });
+      await fs.writeFile(customCategoriesPath, JSON.stringify(customCategories, null, 2), 'utf-8');
+    }
+
+    res.json({ ok: true });
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Internal server error' });

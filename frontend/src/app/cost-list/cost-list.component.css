@@ -28,4 +28,51 @@ summary {
   padding: 6px 0;
   color: #666;
 }
-  
+
+.unmatched-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.unmatched-controls input[type='text'] {
+  flex: 1;
+  min-width: 220px;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #ddd;
+  padding: 6px 8px;
+  vertical-align: top;
+}
+
+select,
+input[type='text'] {
+  width: 100%;
+  max-width: 260px;
+}
+
+.status {
+  font-weight: 600;
+}
+
+.status.success {
+  color: #1a7f37;
+}
+
+.status.error {
+  color: #b42318;
+}

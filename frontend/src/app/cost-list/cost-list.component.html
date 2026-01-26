@@ -26,17 +26,50 @@
 </div>
 
 <h3>Unmatched Costs:</h3>
-<table>
+<div class="unmatched-controls">
+  <input type="text" [(ngModel)]="filterText" placeholder="Filter by description" />
+  <label class="toggle">
+    <input type="checkbox" [(ngModel)]="hideCategorized" />
+    Hide categorized
+  </label>
+</div>
+<table *ngIf="filteredUnmatchedCosts.length">
   <thead>
     <tr>
       <th>Description</th>
       <th>Amount</th>
+      <th>Category</th>
+      <th>Keyword</th>
+      <th>Action</th>
+      <th>Status</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let unmatchedCost of unmatchedCosts">
+    <tr *ngFor="let unmatchedCost of filteredUnmatchedCosts">
       <td>{{ unmatchedCost.description }}</td>
       <td>{{ unmatchedCost.amount }}</td>
+      <td>
+        <select [(ngModel)]="unmatchedCost.selectedCategory">
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+      </td>
+      <td>
+        <input type="text" [(ngModel)]="unmatchedCost.keyword" placeholder="Match keyword" />
+      </td>
+      <td>
+        <button type="button" (click)="categorizeCost(unmatchedCost)" [disabled]="unmatchedCost.isSaving">
+          Categorize
+        </button>
+      </td>
+      <td>
+        <span *ngIf="unmatchedCost.categorized" class="status success">Saved</span>
+        <span *ngIf="unmatchedCost.error" class="status error">{{ unmatchedCost.error }}</span>
+      </td>
     </tr>
   </tbody>
 </table>
+<div *ngIf="!filteredUnmatchedCosts.length" class="empty-items">
+  No unmatched costs.
+</div>
