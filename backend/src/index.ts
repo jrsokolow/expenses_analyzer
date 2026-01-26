@@ -12,12 +12,15 @@ interface CategoryMap {
 
 const categoriesPath = path.resolve(process.cwd(), 'src', 'categories.json');
 const customCategoriesPath = path.resolve(process.cwd(), 'src', 'custom-categories.json');
+const ignorePhrasesPath = path.resolve(process.cwd(), 'src', 'ignore-phrases.json');
 let baseCategories: CategoryMap = {};
 let customCategories: CategoryMap = {};
+let ignorePhrases: string[] = [];
 let categoriesLoaded = false;
 
 function isCostMatch(value: string, array: string[]): boolean {
-  return array.some((str) => value.includes(str));
+  const normalizedValue = removeIgnoredPhrases(value);
+  return array.some((str) => normalizedValue.includes(str));
 }
 
 const app = express();
@@ -63,6 +66,16 @@ async function loadCategoryFile(filePath: string): Promise<CategoryMap> {
   }
 }
 
+async function loadIgnorePhrases(filePath: string): Promise<string[]> {
+  try {
+    const raw = await fs.readFile(filePath, 'utf-8');
+    const parsed = JSON.parse(raw) as string[];
+    return Array.isArray(parsed) ? parsed.filter((item) => typeof item === 'string') : [];
+  } catch (error) {
+    return [];
+  }
+}
+
 async function ensureCategoriesLoaded(): Promise<void> {
   if (categoriesLoaded) {
     return;
@@ -70,6 +83,7 @@ async function ensureCategoriesLoaded(): Promise<void> {
 
   baseCategories = await loadCategoryFile(categoriesPath);
   customCategories = await loadCategoryFile(customCategoriesPath);
+  ignorePhrases = await loadIgnorePhrases(ignorePhrasesPath);
   categoriesLoaded = true;
 }
 
@@ -99,6 +113,18 @@ async function saveCustomCategories(): Promise<void> {
 async function saveBaseCategories(): Promise<void> {
   await fs.mkdir(path.dirname(categoriesPath), { recursive: true });
   await fs.writeFile(categoriesPath, JSON.stringify(baseCategories, null, 2), 'utf-8');
+}
+
+function removeIgnoredPhrases(value: string): string {
+  if (!ignorePhrases.length) {
+    return value;
+  }
+  return ignorePhrases.reduce((result, phrase) => {
+    if (!phrase) {
+      return result;
+    }
+    return result.split(phrase).join('');
+  }, value);
 }
 
 app.get('/api/costs', async (req: Request, res: Response) => {
