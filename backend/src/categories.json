@@ -50,7 +50,8 @@
     "LOTOS",
     "ORLEN",
     "CIRCLE",
-    "NOWA SOL MOL"
+    "NOWA SOL MOL",
+    "paliwo"
   ],
   "CAR_SHOWER": [
     "WIKON",
@@ -69,7 +70,9 @@
     "YouTube",
     "NBA League Pass",
     "SKYSHOWTIME",
-    "DISNEY PLUS"
+    "DISNEY PLUS",
+    "Dublin Google One",
+    "Prime Video"
   ],
   "DOCTORS": [
     "MEDICUS",
@@ -77,7 +80,8 @@
     "PERINATEA"
   ],
   "MEDICINE": [
-    "APTEKA"
+    "APTEKA",
+    "mothersprotect"
   ],
   "DIABETIC": [
     "diabetyk24",
@@ -130,7 +134,8 @@
   ],
   "COSMETICS": [
     "ROSSMANN",
-    "SZALATA CHLEBOWSKA"
+    "SZALATA CHLEBOWSKA",
+    "flaconi"
   ],
   "HAIR_CUT": [
     "FRYZJERSKI",
@@ -180,7 +185,9 @@
     "PIERINO",
     "CAFFETTERIA GELATERIA",
     "JAZGOT",
-    "TADZ MAHAL"
+    "TADZ MAHAL",
+    "KURZA TWARZ",
+    "PRYWATKA"
   ],
   "PSYCHOTERAPIA_STUDIES": [
     "koleo",
@@ -225,12 +232,19 @@
     "KARPNIKI",
     " STARA STAJNIA"
   ],
-  "EVENTS": [],
+  "EVENTS": [
+    "abilet",
+    "eventim"
+  ],
   "KIDS": [
     "Maria Sokołowska",
-    "Kosma Sokołowski"
+    "Kosma Sokołowski",
+    "zajęcia szachowe",
+    "Marysia jazda"
   ],
-  "SAVINGS": [],
+  "SAVINGS": [
+    "mieszkanie/piec"
+  ],
   "EDUCATION": [
     "CURSOR",
     "AWS EMEA",

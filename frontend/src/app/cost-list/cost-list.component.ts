@@ -37,6 +37,13 @@ export class CostListComponent implements OnInit {
   newCategoryName = '';
   categoryError = '';
   isCreatingCategory = false;
+  editorCategory = '';
+  editorKeywords: string[] = [];
+  editorKeyword = '';
+  editorError = '';
+  isLoadingEditor = false;
+  isSavingEditor = false;
+  isDeletingEditor = false;
 
   constructor(private http: HttpClient) { }
 
@@ -95,6 +102,10 @@ export class CostListComponent implements OnInit {
       (data) => {
         const list = Array.isArray(data) ? data : [];
         this.categories = list.slice().sort((a, b) => a.localeCompare(b));
+        if (!this.editorCategory && this.categories.length) {
+          this.editorCategory = this.categories[0];
+          this.fetchCategoryKeywords();
+        }
         this.ensureCategoriesFromCosts();
         this.applyCategoryDefaults();
       },
@@ -142,6 +153,10 @@ export class CostListComponent implements OnInit {
       .map((cost) => cost.name)
       .slice()
       .sort((a, b) => a.localeCompare(b));
+    if (!this.editorCategory && this.categories.length) {
+      this.editorCategory = this.categories[0];
+      this.fetchCategoryKeywords();
+    }
     this.applyCategoryDefaults();
   }
 
@@ -166,6 +181,84 @@ export class CostListComponent implements OnInit {
           this.isCreatingCategory = false;
           this.categoryError = error?.error?.error || 'Failed to create category.';
           console.log('Error creating category:', error);
+        }
+      );
+  }
+
+  fetchCategoryKeywords() {
+    if (!this.editorCategory) {
+      return;
+    }
+    this.editorError = '';
+    this.isLoadingEditor = true;
+    this.http
+      .get<{ keywords: string[] }>(`http://localhost:3000/api/categories/${this.editorCategory}`)
+      .subscribe(
+        (data) => {
+          this.isLoadingEditor = false;
+          this.editorKeywords = Array.isArray(data?.keywords) ? data.keywords : [];
+        },
+        (error) => {
+          this.isLoadingEditor = false;
+          this.editorError = error?.error?.error || 'Failed to load category keywords.';
+          console.log('Error loading category keywords:', error);
+        }
+      );
+  }
+
+  addEditorKeyword() {
+    this.editorError = '';
+    const keyword = this.editorKeyword.trim();
+    if (!this.editorCategory) {
+      this.editorError = 'Select a category.';
+      return;
+    }
+    if (!keyword) {
+      this.editorError = 'Keyword is required.';
+      return;
+    }
+    this.isSavingEditor = true;
+    this.http
+      .post('http://localhost:3000/api/categorize', {
+        category: this.editorCategory,
+        keyword,
+      })
+      .subscribe(
+        () => {
+          this.isSavingEditor = false;
+          this.editorKeyword = '';
+          this.fetchCategoryKeywords();
+          this.fetchCosts();
+          this.fetchUnmatchedCosts();
+        },
+        (error) => {
+          this.isSavingEditor = false;
+          this.editorError = error?.error?.error || 'Failed to add keyword.';
+          console.log('Error adding keyword:', error);
+        }
+      );
+  }
+
+  removeKeyword(keyword: string) {
+    if (!this.editorCategory) {
+      return;
+    }
+    this.isDeletingEditor = true;
+    this.http
+      .delete(`http://localhost:3000/api/categories/${this.editorCategory}/keyword`, {
+        body: { keyword },
+      })
+      .subscribe(
+        () => {
+          this.isDeletingEditor = false;
+          this.fetchCategoryKeywords();
+          this.fetchCosts();
+          this.fetchUnmatchedCosts();
+        },
+        (error) => {
+          this.isDeletingEditor = false;
+          this.editorError = error?.error?.error || 'Failed to remove keyword.';
+          console.log('Error removing keyword:', error);
         }
       );
   }

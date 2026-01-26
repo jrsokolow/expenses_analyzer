@@ -11,10 +11,8 @@ interface CategoryMap {
 }
 
 const categoriesPath = path.resolve(process.cwd(), 'src', 'categories.json');
-const customCategoriesPath = path.resolve(process.cwd(), 'src', 'custom-categories.json');
 const ignorePhrasesPath = path.resolve(process.cwd(), 'src', 'ignore-phrases.json');
-let baseCategories: CategoryMap = {};
-let customCategories: CategoryMap = {};
+let categories: CategoryMap = {};
 let ignorePhrases: string[] = [];
 let categoriesLoaded = false;
 
@@ -81,38 +79,18 @@ async function ensureCategoriesLoaded(): Promise<void> {
     return;
   }
 
-  baseCategories = await loadCategoryFile(categoriesPath);
-  customCategories = await loadCategoryFile(customCategoriesPath);
+  categories = await loadCategoryFile(categoriesPath);
   ignorePhrases = await loadIgnorePhrases(ignorePhrasesPath);
   categoriesLoaded = true;
 }
 
 function getCategoryMap(): CategoryMap {
-  const merged: CategoryMap = {};
-  Object.entries(baseCategories).forEach(([category, values]) => {
-    merged[category] = [...values];
-  });
-  Object.entries(customCategories).forEach(([category, values]) => {
-    if (!merged[category]) {
-      merged[category] = [];
-    }
-    values.forEach((value) => {
-      if (!merged[category].some((existing) => existing === value)) {
-        merged[category].push(value);
-      }
-    });
-  });
-  return merged;
+  return categories;
 }
 
-async function saveCustomCategories(): Promise<void> {
-  await fs.mkdir(path.dirname(customCategoriesPath), { recursive: true });
-  await fs.writeFile(customCategoriesPath, JSON.stringify(customCategories, null, 2), 'utf-8');
-}
-
-async function saveBaseCategories(): Promise<void> {
+async function saveCategories(): Promise<void> {
   await fs.mkdir(path.dirname(categoriesPath), { recursive: true });
-  await fs.writeFile(categoriesPath, JSON.stringify(baseCategories, null, 2), 'utf-8');
+  await fs.writeFile(categoriesPath, JSON.stringify(categories, null, 2), 'utf-8');
 }
 
 function removeIgnoredPhrases(value: string): string {
@@ -226,20 +204,64 @@ app.post('/api/categories', async (req: Request, res: Response) => {
       return;
     }
 
-    if (baseCategories[normalizedCategory]) {
+    if (categories[normalizedCategory]) {
       res.status(400).json({ error: 'Category already exists.' });
       return;
     }
 
-    if (customCategories[normalizedCategory]) {
-      baseCategories[normalizedCategory] = [];
-      await saveBaseCategories();
-      res.json({ ok: true, promoted: true });
+    categories[normalizedCategory] = [];
+    await saveCategories();
+    res.json({ ok: true });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/categories/:category', async (req: Request, res: Response) => {
+  try {
+    await ensureCategoriesLoaded();
+    const category = req.params.category;
+    if (!category) {
+      res.status(400).json({ error: 'Category is required.' });
       return;
     }
 
-    baseCategories[normalizedCategory] = [];
-    await saveBaseCategories();
+    if (!categories[category]) {
+      res.status(404).json({ error: 'Category not found.' });
+      return;
+    }
+
+    res.json({ keywords: categories[category] ?? [] });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.delete('/api/categories/:category/keyword', async (req: Request, res: Response) => {
+  try {
+    await ensureCategoriesLoaded();
+    const category = req.params.category;
+    const { keyword } = req.body as { keyword?: string };
+    if (!category || !keyword) {
+      res.status(400).json({ error: 'Category and keyword are required.' });
+      return;
+    }
+
+    if (!categories[category]) {
+      res.status(404).json({ error: 'Keyword not found.' });
+      return;
+    }
+
+    const index = categories[category].findIndex((value) => value === keyword);
+    if (index === -1) {
+      res.status(404).json({ error: 'Keyword not found.' });
+      return;
+    }
+
+    categories[category].splice(index, 1);
+    await saveCategories();
     res.json({ ok: true });
   } catch (error) {
     console.error('Error:', error);
@@ -255,7 +277,7 @@ app.post('/api/categorize', async (req: Request, res: Response) => {
       res.status(400).json({ error: 'Category and keyword are required.' });
       return;
     }
-    if (!baseCategories[category] && !customCategories[category]) {
+    if (!categories[category]) {
       res.status(400).json({ error: 'Unknown category.' });
       return;
     }
@@ -266,25 +288,12 @@ app.post('/api/categorize', async (req: Request, res: Response) => {
       return;
     }
 
-    if (!customCategories[category]) {
-      customCategories[category] = [];
-    }
-
-    const targetCategories = baseCategories[category] ? baseCategories : customCategories;
-    if (!targetCategories[category]) {
-      targetCategories[category] = [];
-    }
-
-    const exists = targetCategories[category].some(
+    const exists = categories[category].some(
       (value) => value.toLowerCase() === normalizedKeyword.toLowerCase()
     );
     if (!exists) {
-      targetCategories[category].push(normalizedKeyword);
-      if (targetCategories === baseCategories) {
-        await saveBaseCategories();
-      } else {
-        await saveCustomCategories();
-      }
+      categories[category].push(normalizedKeyword);
+      await saveCategories();
     }
 
     res.json({ ok: true });
