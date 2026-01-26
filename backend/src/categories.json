@@ -1,0 +1,224 @@
+{
+  "SMALL_SHOPS": [
+    "DEALZ",
+    "bakaliowesmaki",
+    "SPAR",
+    "SKLEP RYBNY",
+    "Konotop PUH JOZEFOW RYSZARD",
+    "ZABKA",
+    "ZYGULA",
+    "Piekarnia",
+    "WIELOBRANZOWY",
+    "DELIKATESY MIESNE",
+    "ROGAL",
+    "FIVE",
+    "LEKS",
+    "ODiDO",
+    "PROACTIVE ZAJAC",
+    "MOTYKA",
+    "EMI S.C",
+    "CUKIERNIA SNICKERS",
+    "DANIEL FIJO",
+    "WEDLINDROBEX"
+  ],
+  "MARKETS": [
+    "DINO",
+    "NETTO",
+    "BIEDRONKA",
+    "CARREFOUR",
+    "LIDL"
+  ],
+  "ALLEGRO": [
+    "Allegro"
+  ],
+  "OLX": [
+    "olx.pl"
+  ],
+  "PEPCO": [
+    "PEPCO"
+  ],
+  "TOOLS_SHOPS": [
+    "MROWKA",
+    "GRANAT"
+  ],
+  "PETS": [
+    "PATIVET",
+    "KAKADU"
+  ],
+  "PETROL": [
+    "STACJA PALIW",
+    "LOTOS",
+    "ORLEN",
+    "CIRCLE",
+    "NOWA SOL MOL"
+  ],
+  "CAR_SHOWER": [
+    "WIKON",
+    "Myjnia"
+  ],
+  "ORANGE": [
+    "FLEX"
+  ],
+  "MEDIA": [
+    "YouTubePremium",
+    "rp.pl",
+    "Netflix",
+    "NETFLIX",
+    "Google Play",
+    "help.max.com",
+    "YouTube",
+    "NBA League Pass",
+    "SKYSHOWTIME",
+    "Dublin Google One"
+  ],
+  "DOCTORS": [
+    "MEDICUS",
+    "ALDEMED",
+    "PERINATEA"
+  ],
+  "MEDICINE": [
+    "APTEKA"
+  ],
+  "DIABETIC": [
+    "diabetyk24",
+    "HEROKU",
+    "Aero-Medika",
+    "sugarcubes",
+    "equil"
+  ],
+  "DENTISTRY": [
+    "STOMATOLOGIA"
+  ],
+  "SALETNIK": [
+    "Opłata za terapię",
+    "Opłata za psychoterapię",
+    "psychoterapia"
+  ],
+  "CLOTHS": [
+    "HM",
+    "BERSHKA",
+    "STRADIVARIUS",
+    "zalando",
+    "miluba.pl",
+    "smyk",
+    "SECRET",
+    "SINSAY",
+    "kappahl",
+    "MEDICINE",
+    "HOUSE",
+    "RESERVED",
+    "HM POL",
+    "GALANTERIA ODZIEZOWA",
+    "HEBE",
+    "CROPP",
+    "vinted"
+  ],
+  "SPORT": [
+    "www.decathlon.pl",
+    "MARTES",
+    "AMREST SP. Z O.O. 01 POL 114.94 PLN 2026-01-18"
+  ],
+  "SHOES": [
+    "Deichmann",
+    "nbsklep",
+    "CCC",
+    "e-cizemka",
+    "ccc.eu",
+    "eobuwie",
+    "zapato"
+  ],
+  "COSMETICS": [
+    "ROSSMANN",
+    "SZALATA CHLEBOWSKA"
+  ],
+  "HAIR_CUT": [
+    "FRYZJERSKI",
+    "FRYZJERSKA"
+  ],
+  "ENGLISH": [
+    "edoo"
+  ],
+  "CINEMA": [
+    "DOM KULTURY",
+    "cinema-city"
+  ],
+  "EMPIK": [
+    "EMPIK"
+  ],
+  "GAMES": [
+    "GOGcomECOM",
+    "Steam",
+    "STEAM",
+    "PlayStation"
+  ],
+  "RESTAURANT": [
+    "DA GRASSO",
+    "BON BON",
+    "DOLCE VITA",
+    "PIZZERIA LUCA",
+    "STACJA CAFE",
+    "CAFE SAN-REMO",
+    "GRYCAN LODY OD POKOLEN",
+    "TOMASZ KUROS",
+    "ZIELONA GORA BW SPOLKA Z O.O.",
+    "MOCCA",
+    "KARMEL",
+    "SLOW FOOD",
+    "Verde",
+    "EWA DA",
+    "STARA PIEKARNIA",
+    "MCDONALDS",
+    "TCHIBO",
+    "PIJALNIA KAWY I CZEKO",
+    "KUCHNIE SWIATA",
+    "HEBAN",
+    "Ohy",
+    "KRATKA",
+    "Wafelek i Kulka",
+    "CIACHOO",
+    "PIERINO",
+    "CAFFETTERIA GELATERIA"
+  ],
+  "PSYCHOTERAPIA": [
+    "koleo",
+    "Wroclaw",
+    "WROCLAW",
+    "UBER",
+    "SWIETEJ DOM PIELGRZYMA"
+  ],
+  "CASH_MACHINE": [
+    "PLANET CASH",
+    "KOZUCHOW FILIA",
+    "NOWA SOL BS NOWA SOL"
+  ],
+  "CARD_SERVICE": [
+    "OBSLUGE KARTY"
+  ],
+  "CAR_MECHANIC": [
+    "EXPORT IMPORT LESZEK"
+  ],
+  "METLIFE": [
+    "21754947"
+  ],
+  "FARM": [
+    "ZIELONY ZAKATEK",
+    "OGRODNICZO",
+    "CENTRUM OGRODNICZE",
+    "ATO"
+  ],
+  "MIEDZYZDROJE": [
+    "MIEDZYZDROJE"
+  ],
+  "WAKACJE_JANOWICE": [
+    "KOWARY",
+    "Kowary",
+    "Janowice",
+    "Mala Upa",
+    "Jelenia Gora",
+    "SZRENICA",
+    "szrenica",
+    "SZKLARSKA",
+    "KARPNIKI",
+    " STARA STAJNIA"
+  ]
+}

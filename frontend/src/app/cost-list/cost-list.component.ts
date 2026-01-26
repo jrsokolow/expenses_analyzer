@@ -151,7 +151,7 @@ export class CostListComponent implements OnInit {
         },
         (error) => {
           cost.isSaving = false;
-          cost.error = 'Failed to categorize.';
+          cost.error = error?.error?.error || 'Failed to categorize.';
           console.log('Error categorizing cost:', error);
         }
       );

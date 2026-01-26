@@ -6,78 +6,15 @@ import path from 'path';
 
 import readExcelFile from 'read-excel-file/node';
 
-const SMALL_SHOPS = ['DEALZ', 'bakaliowesmaki', 'SPAR', 'SKLEP RYBNY', 'Konotop PUH JOZEFOW RYSZARD', 'ZABKA', 'ZYGULA', 'Piekarnia', 'WIELOBRANZOWY', 'DELIKATESY MIESNE', 'ROGAL', 'FIVE', 'LEKS', 'ODiDO', 'PROACTIVE ZAJAC', 'MOTYKA', 'EMI S.C', 'CUKIERNIA SNICKERS', 'DANIEL FIJO', 'WEDLINDROBEX'];
-const MARKETS = ['DINO', 'NETTO', 'BIEDRONKA', 'CARREFOUR', 'LIDL'];
-const ALLEGRO = ['Allegro'];
-const OLX = ['olx.pl'];
-const PEPCO = ['PEPCO'];
-const PETROL = ['STACJA PALIW', 'LOTOS', 'ORLEN', 'CIRCLE', 'NOWA SOL MOL'];
-const MEDICINE = ['APTEKA'];
-const DOCTORS = ['MEDICUS', 'ALDEMED', 'PERINATEA'];
-const DENTISTRY = ['STOMATOLOGIA'];
-const DIABETIC = ['diabetyk24', 'HEROKU', 'Aero-Medika', 'sugarcubes', 'equil'];
-const TOOLS_SHOPS = ['MROWKA', 'GRANAT'];
-const GAMES = ['GOGcomECOM', 'Steam', 'STEAM', 'PlayStation'];
-const MEDIA = ['YouTubePremium', 'rp.pl', 'Netflix', 'NETFLIX', 'Google Play', 'help.max.com', 'YouTube', 'NBA League Pass', 'SKYSHOWTIME'];
-const ORANGE = ['FLEX'];
-const CLOTHS = ['HM', 'BERSHKA', 'STRADIVARIUS', 'zalando', 'miluba.pl', 'smyk', 'SECRET', 'SINSAY', 'kappahl', 'MEDICINE', 'HOUSE', 'RESERVED', 'HM POL', 'GALANTERIA ODZIEZOWA', 'HEBE', 'CROPP', 'vinted'];
-const CAR_SHOWER = ['WIKON', 'Myjnia'];
-const SHOES = ['Deichmann', 'nbsklep', 'CCC', 'e-cizemka', 'ccc.eu', 'eobuwie', 'zapato'];
-const COSMETICS = ['ROSSMANN', 'SZALATA CHLEBOWSKA'];
-const EMPIK = ['EMPIK'];
-const RESTAURANT = ['DA GRASSO', 'BON BON', 'DOLCE VITA', 'PIZZERIA LUCA', 'STACJA CAFE', 'CAFE SAN-REMO', 'GRYCAN LODY OD POKOLEN', 'TOMASZ KUROS', 'ZIELONA GORA BW SPOLKA Z O.O.', 'MOCCA', 'KARMEL', 'SLOW FOOD', 'Verde', 'EWA DA', 'STARA PIEKARNIA', 'MCDONALDS', 'TCHIBO', 'PIJALNIA KAWY I CZEKO', 'KUCHNIE SWIATA', 'HEBAN', 'Ohy', 'KRATKA', 'Wafelek i Kulka', 'CIACHOO', 'PIERINO', 'CAFFETTERIA GELATERIA'];
-const MIEDZYZDROJE = ['MIEDZYZDROJE'];
-const CINEMA = ['DOM KULTURY', 'cinema-city'];
-const SPORT = ['www.decathlon.pl', 'MARTES'];
-const HAIR_CUT = ['FRYZJERSKI', 'FRYZJERSKA'];
-const PETS = ['PATIVET', 'KAKADU'];
-const ENGLISH = ['edoo'];
-const CASH_MACHINE = ['PLANET CASH', 'KOZUCHOW FILIA', 'NOWA SOL BS NOWA SOL'];
-const CARD_SERVICE = ['OBSLUGE KARTY'];
-const CAR_MECHANIC = ['EXPORT IMPORT LESZEK'];
-const SALETNIK = ['Opłata za terapię', 'Opłata za psychoterapię'];
-const PSYCHOTERAPIA = ['koleo', 'Wroclaw', 'WROCLAW', 'UBER', 'SWIETEJ DOM PIELGRZYMA'];
-const METLIFE = ['21754947'];
-const FARM = ['ZIELONY ZAKATEK', 'OGRODNICZO', 'CENTRUM OGRODNICZE', 'ATO'];
-const WAKACJE_JANOWICE = ['KOWARY', 'Kowary', 'Janowice', 'Mala Upa', 'Jelenia Gora', 'SZRENICA', 'szrenica', 'SZKLARSKA', 'KARPNIKI', ' STARA STAJNIA']
+interface CategoryMap {
+  [category: string]: string[];
+}
 
-// Definicja obiektu z mapowaniem stałych
-const constantMap: Record<string, string[]> = {
-  SMALL_SHOPS,
-  MARKETS,
-  PEPCO,
-  ALLEGRO,
-  OLX,
-  TOOLS_SHOPS,
-  PETS,
-  PETROL,
-  CAR_SHOWER,
-  ORANGE,
-  MEDIA,
-  DOCTORS,
-  MEDICINE,
-  DIABETIC,
-  DENTISTRY,
-  SALETNIK,
-  CLOTHS,
-  SPORT,
-  SHOES,
-  COSMETICS,
-  HAIR_CUT,
-  ENGLISH,
-  CINEMA,
-  EMPIK,
-  GAMES,
-  RESTAURANT,
-  PSYCHOTERAPIA,
-  CASH_MACHINE,
-  CARD_SERVICE,
-  CAR_MECHANIC,
-  METLIFE,
-  FARM,
-  MIEDZYZDROJE,
-  WAKACJE_JANOWICE
-};
+const categoriesPath = path.resolve(process.cwd(), 'src', 'categories.json');
+const customCategoriesPath = path.resolve(process.cwd(), 'src', 'custom-categories.json');
+let baseCategories: CategoryMap = {};
+let customCategories: CategoryMap = {};
+let categoriesLoaded = false;
 
 function isCostMatch(value: string, array: string[]): boolean {
   return array.some((str) => value.toLowerCase().includes(str.toLowerCase()));
@@ -102,14 +39,6 @@ interface CostItem {
   amount: number;
 }
 
-interface CustomCategories {
-  [category: string]: string[];
-}
-
-const customCategoriesPath = path.resolve(process.cwd(), 'data', 'custom-categories.json');
-let customCategories: CustomCategories = {};
-let customCategoriesLoaded = false;
-
 function parseAmount(value: string): number | null {
   const normalizedAmount = value
     .replace(/\s/g, '')
@@ -119,47 +48,57 @@ function parseAmount(value: string): number | null {
   return Number.isFinite(amount) ? Math.abs(amount) : null;
 }
 
-async function ensureCustomCategoriesLoaded(): Promise<void> {
-  if (customCategoriesLoaded) {
-    return;
-  }
-
+async function loadCategoryFile(filePath: string): Promise<CategoryMap> {
   try {
-    const raw = await fs.readFile(customCategoriesPath, 'utf-8');
-    const parsed = JSON.parse(raw) as CustomCategories;
-    customCategories = Object.fromEntries(
+    const raw = await fs.readFile(filePath, 'utf-8');
+    const parsed = JSON.parse(raw) as CategoryMap;
+    return Object.fromEntries(
       Object.entries(parsed).map(([key, value]) => [
         key,
         Array.isArray(value) ? value.filter((item) => typeof item === 'string') : [],
       ])
     );
   } catch (error) {
-    customCategories = {};
+    return {};
   }
-  customCategoriesLoaded = true;
 }
 
-function getCombinedCategoryMap(): Record<string, string[]> {
-  const combined: Record<string, string[]> = {};
-  Object.entries(constantMap).forEach(([category, values]) => {
-    combined[category] = [...values];
+async function ensureCategoriesLoaded(): Promise<void> {
+  if (categoriesLoaded) {
+    return;
+  }
+
+  baseCategories = await loadCategoryFile(categoriesPath);
+  customCategories = await loadCategoryFile(customCategoriesPath);
+  categoriesLoaded = true;
+}
+
+function getCategoryMap(): CategoryMap {
+  const merged: CategoryMap = {};
+  Object.entries(baseCategories).forEach(([category, values]) => {
+    merged[category] = [...values];
   });
   Object.entries(customCategories).forEach(([category, values]) => {
-    if (!combined[category]) {
-      combined[category] = [];
+    if (!merged[category]) {
+      merged[category] = [];
     }
     values.forEach((value) => {
-      if (!combined[category].some((existing) => existing.toLowerCase() === value.toLowerCase())) {
-        combined[category].push(value);
+      if (!merged[category].some((existing) => existing.toLowerCase() === value.toLowerCase())) {
+        merged[category].push(value);
       }
     });
   });
-  return combined;
+  return merged;
+}
+
+async function saveCustomCategories(): Promise<void> {
+  await fs.mkdir(path.dirname(customCategoriesPath), { recursive: true });
+  await fs.writeFile(customCategoriesPath, JSON.stringify(customCategories, null, 2), 'utf-8');
 }
 
 app.get('/api/costs', async (req: Request, res: Response) => {
   try {
-    await ensureCustomCategoriesLoaded();
+    await ensureCategoriesLoaded();
     const rows: Row[] = await readExcelFile(excelFilePath);
 
     const jsonData: ExcelRow[] = rows
@@ -171,7 +110,7 @@ app.get('/api/costs', async (req: Request, res: Response) => {
       }));
 
     const costs: Record<string, { total: number; items: CostItem[] }> = {};
-    const categoryMap = getCombinedCategoryMap();
+    const categoryMap = getCategoryMap();
 
     Object.keys(categoryMap).forEach((constant) => {
       console.log(constant);
@@ -207,7 +146,7 @@ app.get('/api/costs', async (req: Request, res: Response) => {
 
 app.get('/api/non-matching', async (req: Request, res: Response) => {
   try {
-    await ensureCustomCategoriesLoaded();
+    await ensureCategoriesLoaded();
     const rows: Row[] = await readExcelFile(excelFilePath);
 
     const jsonData: ExcelRow[] = rows
@@ -218,7 +157,7 @@ app.get('/api/non-matching', async (req: Request, res: Response) => {
         Kwota: row[3]?.toString() || '',
       }));
 
-    const categoryMap = getCombinedCategoryMap();
+    const categoryMap = getCategoryMap();
     const nonMatchingRows = jsonData.filter((row: ExcelRow) => {
       const values = Object.values(categoryMap).flat();
       return !values.some((value) => row.Opis.toLowerCase().includes(value.toLowerCase()));
@@ -232,8 +171,8 @@ app.get('/api/non-matching', async (req: Request, res: Response) => {
 
 app.get('/api/categories', async (req: Request, res: Response) => {
   try {
-    await ensureCustomCategoriesLoaded();
-    const categories = Object.keys(getCombinedCategoryMap());
+    await ensureCategoriesLoaded();
+    const categories = Object.keys(getCategoryMap());
     res.json(categories);
   } catch (error) {
     console.error('Error:', error);
@@ -243,13 +182,13 @@ app.get('/api/categories', async (req: Request, res: Response) => {
 
 app.post('/api/categorize', async (req: Request, res: Response) => {
   try {
-    await ensureCustomCategoriesLoaded();
+    await ensureCategoriesLoaded();
     const { category, keyword } = req.body as { category?: string; keyword?: string };
     if (!category || !keyword) {
       res.status(400).json({ error: 'Category and keyword are required.' });
       return;
     }
-    if (!constantMap[category]) {
+    if (!baseCategories[category] && !customCategories[category]) {
       res.status(400).json({ error: 'Unknown category.' });
       return;
     }
@@ -269,8 +208,7 @@ app.post('/api/categorize', async (req: Request, res: Response) => {
     );
     if (!exists) {
       customCategories[category].push(normalizedKeyword);
-      await fs.mkdir(path.dirname(customCategoriesPath), { recursive: true });
-      await fs.writeFile(customCategoriesPath, JSON.stringify(customCategories, null, 2), 'utf-8');
+      await saveCustomCategories();
     }
 
     res.json({ ok: true });
