@@ -1,75 +1,101 @@
-<h3>Costs:</h3>
-<div *ngFor="let cost of costs" class="cost-group">
-  <details>
-    <summary>
-      <span class="cost-name">{{ cost.name }}</span>
-      <span class="cost-total">{{ cost.total }}</span>
-    </summary>
-    <table *ngIf="cost.items.length">
+<div class="page">
+  <section class="panel">
+    <div class="panel-header">
+      <div>
+        <h3>Costs</h3>
+        <p class="panel-subtitle">Totals per category with included transactions.</p>
+      </div>
+      <span class="badge">{{ costs.length }} categories</span>
+    </div>
+    <div *ngFor="let cost of costs" class="cost-group">
+      <details>
+        <summary>
+          <span class="cost-name">{{ cost.name }}</span>
+          <span class="cost-meta">
+            <span class="badge subtle">{{ cost.items.length }} items</span>
+            <span class="cost-total">{{ cost.total }}</span>
+          </span>
+        </summary>
+        <table *ngIf="cost.items.length" class="data-table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th class="amount-col">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of cost.items">
+              <td>{{ item.description }}</td>
+              <td class="amount-col">{{ item.amount }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="!cost.items.length" class="empty-items">
+          No matching items found.
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <div>
+        <h3>Unmatched Costs</h3>
+        <p class="panel-subtitle">Assign categories and add matching keywords.</p>
+      </div>
+      <span class="badge">{{ filteredUnmatchedCosts.length }} rows</span>
+    </div>
+    <div class="unmatched-controls">
+      <input type="text" [(ngModel)]="filterText" placeholder="Filter by description" />
+      <label class="toggle">
+        <input type="checkbox" [(ngModel)]="hideCategorized" />
+        Hide categorized
+      </label>
+    </div>
+    <table *ngIf="filteredUnmatchedCosts.length" class="data-table">
       <thead>
         <tr>
           <th>Description</th>
-          <th>Amount</th>
+          <th class="amount-col">Amount</th>
+          <th>Category</th>
+          <th>Keyword</th>
+          <th>Action</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of cost.items">
-          <td>{{ item.description }}</td>
-          <td>{{ item.amount }}</td>
+        <tr *ngFor="let unmatchedCost of filteredUnmatchedCosts">
+          <td>{{ unmatchedCost.description }}</td>
+          <td class="amount-col">{{ unmatchedCost.amount }}</td>
+          <td>
+            <select [(ngModel)]="unmatchedCost.selectedCategory">
+              <option *ngFor="let category of categories" [value]="category">
+                {{ category }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <input type="text" [(ngModel)]="unmatchedCost.keyword" placeholder="Match keyword" />
+          </td>
+          <td>
+            <button
+              type="button"
+              class="primary"
+              (click)="categorizeCost(unmatchedCost)"
+              [disabled]="unmatchedCost.isSaving"
+            >
+              Categorize
+            </button>
+          </td>
+          <td>
+            <span *ngIf="unmatchedCost.categorized" class="status success">Saved</span>
+            <span *ngIf="unmatchedCost.error" class="status error">{{ unmatchedCost.error }}</span>
+          </td>
         </tr>
       </tbody>
     </table>
-    <div *ngIf="!cost.items.length" class="empty-items">
-      No matching items found.
+    <div *ngIf="!filteredUnmatchedCosts.length" class="empty-items">
+      No unmatched costs.
     </div>
-  </details>
-</div>
-
-<h3>Unmatched Costs:</h3>
-<div class="unmatched-controls">
-  <input type="text" [(ngModel)]="filterText" placeholder="Filter by description" />
-  <label class="toggle">
-    <input type="checkbox" [(ngModel)]="hideCategorized" />
-    Hide categorized
-  </label>
-</div>
-<table *ngIf="filteredUnmatchedCosts.length">
-  <thead>
-    <tr>
-      <th>Description</th>
-      <th>Amount</th>
-      <th>Category</th>
-      <th>Keyword</th>
-      <th>Action</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let unmatchedCost of filteredUnmatchedCosts">
-      <td>{{ unmatchedCost.description }}</td>
-      <td>{{ unmatchedCost.amount }}</td>
-      <td>
-        <select [(ngModel)]="unmatchedCost.selectedCategory">
-          <option *ngFor="let category of categories" [value]="category">
-            {{ category }}
-          </option>
-        </select>
-      </td>
-      <td>
-        <input type="text" [(ngModel)]="unmatchedCost.keyword" placeholder="Match keyword" />
-      </td>
-      <td>
-        <button type="button" (click)="categorizeCost(unmatchedCost)" [disabled]="unmatchedCost.isSaving">
-          Categorize
-        </button>
-      </td>
-      <td>
-        <span *ngIf="unmatchedCost.categorized" class="status success">Saved</span>
-        <span *ngIf="unmatchedCost.error" class="status error">{{ unmatchedCost.error }}</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<div *ngIf="!filteredUnmatchedCosts.length" class="empty-items">
-  No unmatched costs.
+  </section>
 </div>
