@@ -101,7 +101,8 @@ app.get('/api/costs', async (req: Request, res: Response) => {
     const jsonData: ExcelRow[] = rows
       .slice(1)
       .map((row: Row) => ({
-        Opis: row[6]?.toString() || '',
+        // "Opis" is column index 7 in the XLSX file.
+        Opis: row[7]?.toString() || '',
         Kwota: row[3]?.toString() || '',
       }));
 
@@ -110,16 +111,19 @@ app.get('/api/costs', async (req: Request, res: Response) => {
     Object.keys(constantMap).forEach(constant => {
       console.log(constant);
       const constantArray = constantMap[constant];
-      const totalAmount = jsonData.reduce(
-        (sum: number, row: ExcelRow) => {
-          if (isCostMatch(row.Opis, constantArray)) {
-            console.log(row.Opis + ' ' + row.Kwota);
-            return sum + parseFloat(row.Kwota.replace(',', '').replace('-', ''));
-          }
+      const totalAmount = jsonData.reduce((sum: number, row: ExcelRow) => {
+        if (!isCostMatch(row.Opis, constantArray)) {
           return sum;
-        },
-        0
-      );
+        }
+
+        console.log(row.Opis + ' ' + row.Kwota);
+        const normalizedAmount = row.Kwota
+          .replace(/\s/g, '')
+          .replace(',', '.')
+          .replace(/[^0-9.-]/g, '');
+        const amount = Number.parseFloat(normalizedAmount);
+        return Number.isFinite(amount) ? sum + Math.abs(amount) : sum;
+      }, 0);
       costs[constant] = Math.floor(totalAmount);
       console.log('>>>>>>>>>>>>>>>>>>');
     });
@@ -138,7 +142,8 @@ app.get('/api/non-matching', async (req: Request, res: Response) => {
     const jsonData: ExcelRow[] = rows
       .slice(1)
       .map((row: Row) => ({
-        Opis: row[6]?.toString() || '',
+        // "Opis" is column index 7 in the XLSX file.
+        Opis: row[7]?.toString() || '',
         Kwota: row[3]?.toString() || '',
       }));
 
