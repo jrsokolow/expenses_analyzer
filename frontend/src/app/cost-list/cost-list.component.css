@@ -144,6 +144,15 @@ summary {
   margin-bottom: 12px;
 }
 
+.export-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
 .editor-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

@@ -151,7 +151,6 @@
       </button>
       <span *ngIf="editorError" class="status error">{{ editorError }}</span>
     </div>
-
     <div class="editor-grid" *ngIf="!isLoadingEditor">
       <div class="editor-column">
         <h4>Keywords</h4>
@@ -172,5 +171,31 @@
       </div>
     </div>
     <div *ngIf="isLoadingEditor" class="empty-items">Loading keywords...</div>
+    <div class="export-controls">
+      <select [(ngModel)]="selectedSheetTab" [disabled]="!sheetTabs.length">
+        <option *ngFor="let tab of sheetTabs" [value]="tab">
+          {{ tab }}
+        </option>
+      </select>
+      <button
+        type="button"
+        class="primary"
+        (click)="exportToSheet()"
+        [disabled]="isExporting"
+      >
+        Export to Google Sheets
+      </button>
+      <button
+        type="button"
+        class="ghost"
+        (click)="connectGoogle()"
+      >
+        Connect Google
+      </button>
+      <span *ngIf="exportMessage" class="editor-note">{{ exportMessage }}</span>
+    </div>
+    <div *ngIf="exportAvailableLabels.length" class="editor-note">
+      Available labels (first 100): {{ exportAvailableLabels.join(', ') }}
+    </div>
   </section>
 </div>

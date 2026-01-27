@@ -44,6 +44,12 @@ export class CostListComponent implements OnInit {
   isLoadingEditor = false;
   isSavingEditor = false;
   isDeletingEditor = false;
+  isExporting = false;
+  exportMessage = '';
+  googleAuthUrl = '';
+  exportAvailableLabels: string[] = [];
+  sheetTabs: string[] = [];
+  selectedSheetTab = '';
 
   constructor(private http: HttpClient) { }
 
@@ -51,6 +57,7 @@ export class CostListComponent implements OnInit {
     this.fetchCategories();
     this.fetchCosts();
     this.fetchUnmatchedCosts();
+    this.fetchSheetTabs();
   }
 
   get filteredUnmatchedCosts(): UnmatchedCost[] {
@@ -261,6 +268,73 @@ export class CostListComponent implements OnInit {
           console.log('Error removing keyword:', error);
         }
       );
+  }
+
+  exportToSheet() {
+    this.exportMessage = '';
+    this.exportAvailableLabels = [];
+    this.isExporting = true;
+    this.http.post('http://localhost:3000/api/export-to-sheet', {
+      tabName: this.selectedSheetTab || undefined,
+    }).subscribe(
+      (data: any) => {
+        this.isExporting = false;
+        const updated = data?.updated ?? 0;
+        const missingLabels = Array.isArray(data?.missingLabels) ? data.missingLabels : [];
+        const missingCategories = Array.isArray(data?.missingCategories) ? data.missingCategories : [];
+        if (missingLabels.length) {
+          this.exportAvailableLabels = Array.isArray(data?.availableLabels) ? data.availableLabels : [];
+        }
+        const parts = [`Updated ${updated} rows.`];
+        if (missingLabels.length) {
+          parts.push(`Missing labels: ${missingLabels.join(', ')}`);
+        }
+        if (missingCategories.length) {
+          parts.push(`Missing categories: ${missingCategories.join(', ')}`);
+        }
+        this.exportMessage = parts.join(' ');
+      },
+      (error) => {
+        this.isExporting = false;
+        this.googleAuthUrl = error?.error?.authUrl || '';
+        this.exportMessage = error?.error?.error || 'Export failed.';
+        this.exportAvailableLabels = Array.isArray(error?.error?.availableLabels) ? error.error.availableLabels : [];
+        console.log('Error exporting to sheet:', error);
+      }
+    );
+  }
+
+  connectGoogle() {
+    this.exportMessage = '';
+    this.http.get<{ url: string }>('http://localhost:3000/api/google-auth-url').subscribe(
+      (data) => {
+        const url = data?.url;
+        if (url) {
+          this.googleAuthUrl = url;
+          window.open(url, '_blank');
+        }
+      },
+      (error) => {
+        this.exportMessage = error?.error?.error || 'Failed to start OAuth.';
+        console.log('Error starting OAuth:', error);
+      }
+    );
+  }
+
+  fetchSheetTabs() {
+    this.http.get<{ tabs: string[] }>('http://localhost:3000/api/google-sheets-tabs').subscribe(
+      (data) => {
+        const tabs = Array.isArray(data?.tabs) ? data.tabs : [];
+        this.sheetTabs = tabs;
+        if (!this.selectedSheetTab && tabs.length) {
+          this.selectedSheetTab = tabs[0];
+        }
+      },
+      (error) => {
+        this.googleAuthUrl = error?.error?.authUrl || '';
+        console.log('Error fetching sheet tabs:', error);
+      }
+    );
   }
 
   categorizeCost(cost: UnmatchedCost) {

@@ -4,3 +4,4 @@
 /frontend/node_modules
 /frontend/.angular
 /.vscode
+/backend/src/google-token.json
