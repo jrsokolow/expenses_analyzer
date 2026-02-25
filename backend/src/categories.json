@@ -26,7 +26,8 @@
     "NETTO",
     "BIEDRONKA",
     "CARREFOUR",
-    "LIDL"
+    "LIDL",
+    "KAUFLAND"
   ],
   "ALLEGRO": [
     "Allegro"
@@ -72,7 +73,8 @@
     "SKYSHOWTIME",
     "DISNEY PLUS",
     "Dublin Google One",
-    "Prime Video"
+    "Prime Video",
+    "nowehoryzonty"
   ],
   "DOCTORS": [
     "MEDICUS",
@@ -121,7 +123,8 @@
     "www.decathlon.pl",
     "MARTES",
     "AMREST",
-    "pdpoland"
+    "pdpoland",
+    "underarmour.pl"
   ],
   "SHOES": [
     "Deichmann",
@@ -187,7 +190,8 @@
     "JAZGOT",
     "TADZ MAHAL",
     "KURZA TWARZ",
-    "PRYWATKA"
+    "PRYWATKA",
+    "Nowa Sol CAFE WANILIA POL"
   ],
   "PSYCHOTERAPIA_STUDIES": [
     "koleo",
@@ -218,7 +222,11 @@
     "ATO"
   ],
   "MIEDZYZDROJE": [
-    "MIEDZYZDROJE"
+    "MIEDZYZDROJE",
+    "SZCZECIN",
+    "Gorzow Wielko",
+    "POPOWO",
+    "BOOKING"
   ],
   "WAKACJE_JANOWICE": [
     "KOWARY",
@@ -249,7 +257,8 @@
   "EDUCATION": [
     "CURSOR",
     "AWS EMEA",
-    "TRYHACKME"
+    "TRYHACKME",
+    "EDUCATIVE"
   ],
   "DONATION": [
     "caritas.pl",
@@ -259,5 +268,21 @@
   "SPORT": [
     "Ula Sokołowska",
     "ELITE GYM"
+  ],
+  "UNEXPECTED_WARSZAWA": [
+    "WARSZAWA",
+    "Zbaszynek"
+  ],
+  "UNEXPECTED_KRUS": [
+    "8042481"
+  ],
+  "UBEZPIECZENIE_DOM": [
+    "T1507473544"
+  ],
+  "UNEXPECTED_TELEFON": [
+    "Nowa Sol ME M03 POL"
+  ],
+  "UNEXPECTED_WOJTEK_WYCIECZKA": [
+    "Wojciech Sokołowski, wycieczka do Gdańska"
   ]
 }
