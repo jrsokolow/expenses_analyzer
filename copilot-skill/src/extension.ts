@@ -57,6 +57,11 @@ class CodeReviewSkill {
             this.repoRoot = this.workspacePath;
         }
         await this.loadRules();
+        // Log parsed rules for debugging
+        this.log(`Loaded ${this.rules.length} rules:`);
+        this.rules.forEach((r) => {
+            this.log(` - ${r.name} [${r.type}] pattern=${r.pattern} files=${r.files}`);
+        });
     }
 
     private async loadRules(): Promise<void> {
@@ -82,7 +87,13 @@ class CodeReviewSkill {
 
                 lines.forEach((line) => {
                     if (line.startsWith('- **Pattern**:')) {
-                        ruleObj.pattern = line.replace('- **Pattern**:', '').trim().replace(/^`|`$/g, '');
+                        let pat = line.replace('- **Pattern**:', '').trim();
+                        // if pattern is fenced with backticks, grab the content inside
+                        const match = pat.match(/`([^`]+)`/);
+                        if (match) {
+                            pat = match[1];
+                        }
+                        ruleObj.pattern = pat;
                     } else if (line.startsWith('- **Severity**:')) {
                         const sev = line.replace('- **Severity**:', '').trim().toLowerCase();
                         ruleObj.severity = sev as 'critical' | 'warning' | 'info';
@@ -133,20 +144,26 @@ class CodeReviewSkill {
             }
 
             // committed diff relative to base branch
+            const cwd = this.repoRoot || this.workspacePath;
             const committed = execSync(`git diff --name-only ${branchToUse}...HEAD`, {
-                cwd: this.workspacePath,
+                cwd,
                 encoding: 'utf-8',
             });
+            this.log(`git diff ${branchToUse}...HEAD (cwd=${cwd}) ->\n${committed}`);
+
             // unstaged working tree changes
             const unstaged = execSync('git diff --name-only', {
-                cwd: this.workspacePath,
+                cwd,
                 encoding: 'utf-8',
             });
+            this.log(`git diff (unstaged) ->\n${unstaged}`);
+
             // staged changes (cached)
             const staged = execSync('git diff --name-only --cached', {
-                cwd: this.workspacePath,
+                cwd,
                 encoding: 'utf-8',
             });
+            this.log(`git diff --cached ->\n${staged}`);
 
             const files = new Set<string>();
             [committed, unstaged, staged].forEach((out) => {
@@ -159,7 +176,9 @@ class CodeReviewSkill {
                     });
             });
 
-            return Array.from(files);
+            const result = Array.from(files);
+            this.log(`Changed TS files: ${result.join(', ')}`);
+            return result;
         } catch (error) {
             this.log('⚠️  Could not get changed files from git');
             return [];
@@ -193,6 +212,7 @@ class CodeReviewSkill {
 
             for (const file of changedFiles) {
                 const fullPath = path.join(this.repoRoot || vscode.workspace.rootPath!, file);
+                this.log(`Reviewing changed file: ${file} -> ${fullPath}`);
                 try {
                     const content = await fs.readFile(fullPath, 'utf-8');
                     const relativePath = file;
@@ -204,7 +224,7 @@ class CodeReviewSkill {
                         filesReviewed++;
                     }
                 } catch (error) {
-                    console.error(`Error reading file ${file}:`, error);
+                    this.log(`❌ Error reading file ${file}: ${error}`);
                 }
             }
 
@@ -237,23 +257,23 @@ class CodeReviewSkill {
             }
 
             try {
-                const regex = new RegExp(rule.pattern, 'gi');
+                const regex = new RegExp(rule.pattern, 'i');
 
-                if (rule.exclude && content.match(new RegExp(rule.exclude, 'i'))) {
-                    return; // Skip if excluded
-                }
-
-                if (regex.test(content)) {
-                    const lineMatch = content.split('\n').findIndex((line) => new RegExp(rule.pattern, 'i').test(line));
-                    findings.push({
-                        file: filePath,
-                        line: lineMatch >= 0 ? lineMatch + 1 : undefined,
-                        severity: rule.severity,
-                        rule: rule.name,
-                        message: rule.message,
-                        suggestion: rule.suggestion,
-                    });
-                }
+                lines.forEach((line, idx) => {
+                    if (regex.test(line)) {
+                        if (rule.exclude && new RegExp(rule.exclude, 'i').test(line)) {
+                            return; // skip this line if excluded
+                        }
+                        findings.push({
+                            file: filePath,
+                            line: idx + 1,
+                            severity: rule.severity,
+                            rule: rule.name,
+                            message: rule.message,
+                            suggestion: rule.suggestion,
+                        });
+                    }
+                });
             } catch (error) {
                 console.error(`Error applying rule ${rule.name}:`, error);
             }

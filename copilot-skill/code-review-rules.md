@@ -44,12 +44,11 @@
 ### INFO
 
 #### Console.log in Code
-- **Pattern**: `console.log` not in comments
+- **Pattern**: `console\.log`
 - **Severity**: info
 - **Message**: console.log found in code
 - **Suggestion**: Use proper logging library (winston, pino) or remove for production
 - **Files**: `*.ts`
-- **Exclude**: comments
 
 ---
 
@@ -88,7 +87,7 @@
 ### INFO
 
 #### Console.log in Code
-- **Pattern**: `console.log` not in comments
+- **Pattern**: `console\.log`
 - **Severity**: info
 - **Message**: console.log found in code
 - **Suggestion**: Remove or use proper logging for debugging
