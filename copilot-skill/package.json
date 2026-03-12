@@ -1,0 +1,51 @@
+{
+    "name": "expenses-analyzer-code-review",
+    "displayName": "Expenses Analyzer Code Review",
+    "description": "Code Review Agent Skill for Express backend and Angular frontend",
+    "version": "1.0.0",
+    "publisher": "expenses-analyzer",
+    "engines": {
+        "vscode": "^1.85.0"
+    },
+    "categories": [
+        "Other",
+        "Copilot",
+        "Code Review"
+    ],
+    "activationEvents": [
+        "onCommand:expensesCodeReview.reviewChangedFiles"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "expensesCodeReview.reviewChangedFiles",
+                "title": "🔍 Code Review: Review Changed Files (Git Diff)",
+                "category": "Expenses Code Review"
+            }
+        ],
+        "menus": {
+            "commandPalette": [
+                {
+                    "command": "expensesCodeReview.reviewChangedFiles"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src --ext ts",
+        "test": "node ./out/test/runTest.js"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.85.0",
+        "@types/node": "^20.0.0",
+        "typescript": "^5.3.0",
+        "@typescript-eslint/eslint-plugin": "^6.0.0",
+        "@typescript-eslint/parser": "^6.0.0",
+        "eslint": "^8.0.0"
+    }
+}
