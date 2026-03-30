@@ -44,7 +44,8 @@
   ],
   "PETS": [
     "PATIVET",
-    "KAKADU"
+    "KAKADU",
+    "Bari"
   ],
   "PETROL": [
     "STACJA PALIW",
@@ -81,9 +82,16 @@
     "ALDEMED",
     "PERINATEA"
   ],
+  "DOCTOS_EXAMS": [
+    "SYNEVO"
+  ],
   "MEDICINE": [
     "APTEKA",
-    "mothersprotect"
+    "mothersprotect",
+    "MOTHERS PROTECT"
+  ],
+  "HOUSE": [
+    "IKEA"
   ],
   "DIABETIC": [
     "diabetyk24",
@@ -98,7 +106,8 @@
   "PSYCHOTERAPIA": [
     "Opłata za terapię",
     "Opłata za psychoterapię",
-    "psychoterapia"
+    "psychoterapia",
+    "Faktura nr"
   ],
   "CLOTHS": [
     "HM",
@@ -149,7 +158,8 @@
   ],
   "CINEMA": [
     "DOM KULTURY",
-    "cinema-city"
+    "cinema-city",
+    "NOWOSOLSKI DOM KULTUR"
   ],
   "EMPIK": [
     "EMPIK"
@@ -191,7 +201,8 @@
     "TADZ MAHAL",
     "KURZA TWARZ",
     "PRYWATKA",
-    "Nowa Sol CAFE WANILIA POL"
+    "Nowa Sol CAFE WANILIA POL",
+    "JAZZGOT"
   ],
   "PSYCHOTERAPIA_STUDIES": [
     "koleo",
@@ -218,8 +229,7 @@
   "FARM": [
     "ZIELONY ZAKATEK",
     "OGRODNICZO",
-    "CENTRUM OGRODNICZE",
-    "ATO"
+    "CENTRUM OGRODNICZE"
   ],
   "MIEDZYZDROJE": [
     "MIEDZYZDROJE",
@@ -258,7 +268,8 @@
     "CURSOR",
     "AWS EMEA",
     "TRYHACKME",
-    "EDUCATIVE"
+    "EDUCATIVE",
+    "CHATGPT"
   ],
   "DONATION": [
     "caritas.pl",
