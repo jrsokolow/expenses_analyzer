@@ -85,7 +85,7 @@
     "ALDEMED",
     "PERINATEA"
   ],
-  "DOCTORS_EXAMS": [
+  "DOCTOS_EXAMS": [
     "SYNEVO"
   ],
   "MEDICINE": [
@@ -290,7 +290,8 @@
   ],
   "SPORT": [
     "Ula Sokołowska",
-    "ELITE GYM"
+    "ELITE GYM",
+    "gymbeam"
   ],
   "UNEXPECTED_WARSZAWA": [
     "WARSZAWA",
