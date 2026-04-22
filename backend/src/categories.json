@@ -19,7 +19,8 @@
     "EMI S.C",
     "CUKIERNIA SNICKERS",
     "DANIEL FIJO",
-    "WEDLINDROBEX"
+    "WEDLINDROBEX",
+    "sklep.kfd.pl"
   ],
   "MARKETS": [
     "DINO",
@@ -53,7 +54,8 @@
     "ORLEN",
     "CIRCLE",
     "NOWA SOL MOL",
-    "paliwo"
+    "paliwo",
+    "Nowa Sol SHELL"
   ],
   "CAR_SHOWER": [
     "WIKON",
@@ -75,14 +77,15 @@
     "DISNEY PLUS",
     "Dublin Google One",
     "Prime Video",
-    "nowehoryzonty"
+    "nowehoryzonty",
+    "polsatboxgo"
   ],
   "DOCTORS": [
     "MEDICUS",
     "ALDEMED",
     "PERINATEA"
   ],
-  "DOCTOS_EXAMS": [
+  "DOCTORS_EXAMS": [
     "SYNEVO"
   ],
   "MEDICINE": [
@@ -91,7 +94,9 @@
     "MOTHERS PROTECT"
   ],
   "HOUSE": [
-    "IKEA"
+    "IKEA",
+    "gallerix",
+    "JYSK"
   ],
   "DIABETIC": [
     "diabetyk24",
@@ -151,7 +156,8 @@
   ],
   "HAIR_CUT": [
     "FRYZJERSKI",
-    "FRYZJERSKA"
+    "FRYZJERSKA",
+    "Ula cięcie"
   ],
   "ENGLISH": [
     "edoo"
@@ -162,7 +168,8 @@
     "NOWOSOLSKI DOM KULTUR"
   ],
   "EMPIK": [
-    "EMPIK"
+    "EMPIK",
+    "sklep.juliarozumek.pl"
   ],
   "GAMES": [
     "GOGcomECOM",
@@ -202,7 +209,11 @@
     "KURZA TWARZ",
     "PRYWATKA",
     "Nowa Sol CAFE WANILIA POL",
-    "JAZZGOT"
+    "JAZZGOT",
+    "BONNO CAFFE",
+    "MANUFAKTURA PIZZY",
+    "Nadodrzanski Dwo",
+    "FIESTA I SIESTA"
   ],
   "PSYCHOTERAPIA_STUDIES": [
     "koleo",
@@ -258,7 +269,8 @@
     "Maria Sokołowska",
     "Kosma Sokołowski",
     "zajęcia szachowe",
-    "Marysia jazda"
+    "Marysia jazda",
+    "TatoNet"
   ],
   "SAVINGS": [
     "mieszkanie/piec",
