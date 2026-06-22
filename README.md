@@ -1,3 +1,17 @@
+## Node version management
+This project uses `nvm` to keep the Node.js version consistent across environments.
+
+Root node version: `24.17.0`
+
+To install and use the correct version:
+
+```bash
+nvm install
+nvm use
+```
+
+---
+
 **Plan**
 * Use AWS api gateway and lambda to deploy backend app
 * Add docker file to both backend and frontend apps
