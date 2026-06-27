@@ -20,7 +20,9 @@
     "CUKIERNIA SNICKERS",
     "DANIEL FIJO",
     "WEDLINDROBEX",
-    "sklep.kfd.pl"
+    "sklep.kfd.pl",
+    "PRZYSTANEK SMAKU",
+    "CUKIERNIA KASPERSCY"
   ],
   "MARKETS": [
     "DINO",
@@ -78,7 +80,8 @@
     "Dublin Google One",
     "Prime Video",
     "nowehoryzonty",
-    "polsatboxgo"
+    "polsatboxgo",
+    "Google One"
   ],
   "DOCTORS": [
     "MEDICUS",
@@ -106,7 +109,8 @@
     "equil"
   ],
   "DENTISTRY": [
-    "STOMATOLOGIA"
+    "STOMATOLOGIA",
+    "SH DENTAL CARE"
   ],
   "PSYCHOTERAPIA": [
     "Opłata za terapię",
@@ -131,7 +135,9 @@
     "GALANTERIA ODZIEZOWA",
     "HEBE",
     "CROPP",
-    "vinted"
+    "vinted",
+    "Recman",
+    "www.jumibag.pl"
   ],
   "SPORT_CLOTHS": [
     "www.decathlon.pl",
@@ -263,7 +269,8 @@
   ],
   "EVENTS": [
     "abilet",
-    "eventim"
+    "eventim",
+    "Transakcja BLIK, /OPT/X///// XX5468580731XX, Płatność BLIK w internecie, Nr 94247639677, PayU, bilety.copa.pl"
   ],
   "KIDS": [
     "Maria Sokołowska",
@@ -281,7 +288,8 @@
     "AWS EMEA",
     "TRYHACKME",
     "EDUCATIVE",
-    "CHATGPT"
+    "CHATGPT",
+    "ANTHROPIC- CLAUDE"
   ],
   "DONATION": [
     "caritas.pl",
@@ -308,5 +316,11 @@
   ],
   "UNEXPECTED_WOJTEK_WYCIECZKA": [
     "Wojciech Sokołowski, wycieczka do Gdańska"
+  ],
+  "BEES": [
+    "Pszczelarstwo",
+    "pszczelarstwo",
+    "matki pszczele",
+    "Buckfast"
   ]
 }
